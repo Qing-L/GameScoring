@@ -1,9 +1,5 @@
 package Score;
 
-<<<<<<< HEAD
-public class ScoreIndicator {
-
-=======
 import javax.swing.*;
 
 import java.awt.*;
@@ -47,7 +43,7 @@ public class ScoreIndicator implements ActionListener
 		}
 		if(e.getSource() == Basketball )
 		{
-			
+			//new Basketball();
 		}
 		
 	}
@@ -55,5 +51,4 @@ public class ScoreIndicator implements ActionListener
 	{
 		new ScoreIndicator();
 	}
->>>>>>> 功能尚未完善
 }

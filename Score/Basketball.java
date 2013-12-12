@@ -5,9 +5,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class Basketball implements ActionListener
+public class Basketball extends JFrame implements ActionListener
 {
-	JFrame BasketballFrame;
+	
 	JPanel Labelpanel,Foulpanel,Scorepanel,Apanel,Bpanel,StatuesPanel,
 				Ascorepanel,Bscorepanel,Abuttonpanel,Bbuttonpanel;
 	JLabel ALabel,BLabel,Bscore,Ascore,AAll,BAll;
@@ -16,7 +16,7 @@ public class Basketball implements ActionListener
 	JComboBox Acb1,Acb2,Acb3,Acb4,Acb5,Bcb1,Bcb2,Bcb3,Bcb4,Bcb5;
 	JButton	 Abutton1,Abutton2,Abutton3,Abutton4,Abutton5,Bbutton1,
 				Bbutton2,Bbutton3,Bbutton4,Bbutton5,AButton_1,AButton_2,AButton_3,
-				BButton_1,BButton_2,BButton_3,Start,Pause,Data,Change,savedata;
+				BButton_1,BButton_2,BButton_3,Start,Pause,Data,Change,Sure,savedata;
 	ImageIcon startimg,pauseimg,overimg;
 	Dimension screenSize;
 	CountTime time;
@@ -25,12 +25,13 @@ public class Basketball implements ActionListener
 	@SuppressWarnings("rawtypes")
 	public Basketball()
 	{
-	BasketballFrame = new JFrame();
-	
     screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    
     /**
-     * 标签栏的所有设置，包括添加A队，B队标签
+     * 标签栏的所有设置，
+     * 包括添加A队，B队标签
      */
+    
 	Labelpanel = new JPanel();
 	/*A队标签栏的设置*/
 	ALabel = new JLabel(new ImageIcon("Source\\10.png"));
@@ -41,9 +42,11 @@ public class Basketball implements ActionListener
 	Labelpanel.add(ALabel);
 	Labelpanel.add(Aname);
 	
+	/*倒计时的显示在两队标签栏中间*/
 	time = new CountTime();
 	time.setOpaque(false);
 	Labelpanel.add(time);
+	
 	/*B队标签栏的设置*/
 	BLabel = new JLabel(new ImageIcon("Source\\11.png"));
 	JTextField Bname = new JTextField(3);
@@ -57,11 +60,17 @@ public class Basketball implements ActionListener
 	Labelpanel.setOpaque(false);
 	
 	/**
-	 * 犯规面板的设置，添加A，B队各个队员和总体的犯规次数
+	 * 犯规面板的设置，
+	 * 添加A，B队各个队员
+	 * 和总体的犯规次数
 	 */
+	
 	Foulpanel = new JPanel();
 	Foulpanel.setPreferredSize(new Dimension(screenSize.width/5,screenSize.height/2));
 	Foulpanel.setOpaque(false);
+	
+	/*添加A队人员和总体犯规次数，
+	 * 单击各个队员后的按钮累计各个队员的犯规次数*/
 	
 	Apanel = new JPanel();
 	JTextField ANum = new JTextField("A队人员");
@@ -77,11 +86,11 @@ public class Basketball implements ActionListener
 	Acb3 = new JComboBox();
 	Acb4 = new JComboBox();
 	Acb5 = new JComboBox();
-	Acb1.setMaximumRowCount(10);
+	/*Acb1.setMaximumRowCount(10);
 	Acb2.setMaximumRowCount(9);
 	Acb3.setMaximumRowCount(8);
 	Acb4.setMaximumRowCount(7);
-	Acb5.setMaximumRowCount(6);
+	Acb5.setMaximumRowCount(6);*/
 	 Abutton1 = new JButton(0+"次");
 	 Abutton2 = new JButton(0+"次");
 	 Abutton3 = new JButton(0+"次");
@@ -118,6 +127,11 @@ public class Basketball implements ActionListener
 	Apanel.add(AAll);
 	Apanel.setLayout(new GridLayout(7,2));
 	Foulpanel.add(Apanel);
+	
+	/*
+	 * 添加B队人员和总体犯规次数，
+	 * 单击各个队员后的按钮累计各个队员的犯规次数
+	 */
 	
 	Bpanel = new JPanel();
 	JTextField BNum = new JTextField("B队人员");
@@ -176,6 +190,11 @@ public class Basketball implements ActionListener
 		
 	Foulpanel.setSize(120,450);
 	
+	/*
+	 * A队记分牌处的设置
+	 * 添加各个加分按钮
+	 * 设置显示分数
+	  */
 	Scorepanel = new JPanel();
 	
 	Ascorepanel =  new JPanel();
@@ -196,24 +215,27 @@ public class Basketball implements ActionListener
 	Abuttonpanel.add(AButton_2);
 	Abuttonpanel.add(AButton_3);
 	
-	//Abuttonpanel.setLayout(new GridLayout(1,3));
 	Abuttonpanel.setOpaque(false);
 	Ascorepanel.setLayout(new BorderLayout());
 	Ascorepanel.add("Center",Ascore);
 	Ascorepanel.add("South",Abuttonpanel);
-<<<<<<< HEAD
-	Ascorepanel.setPreferredSize(new Dimension(450,450));
-=======
 	Ascorepanel.setPreferredSize(new Dimension(350,450));
->>>>>>> 鍔熻兘灏氭湭瀹屽杽
 	Ascorepanel.setOpaque(false);
 	
 	Scorepanel.add(Ascorepanel);
 	
+	/*
+	 *A队和B队分数中间显示VS 
+	 */
 	JLabel VS = new JLabel("VS");
 	VS.setFont(new Font("宋体",Font.BOLD,48));
 	Scorepanel.add(VS);
 	
+	/*
+	 * B队记分牌的设置
+	 * 同样添加3个按钮
+	 * 并设置分数的显示
+	 */
 	Bscorepanel = new JPanel();
 	Bscore = new JLabel("00");
 	Bscore.setFont(new Font("宋体",Font.BOLD,200));
@@ -231,90 +253,94 @@ public class Basketball implements ActionListener
 	Bbuttonpanel.add(BButton_1);
 	Bbuttonpanel.add(BButton_2);
 	Bbuttonpanel.add(BButton_3);
-	//Bbuttonpanel.setLayout(new GridLayout(1,3));
 	Bbuttonpanel.setOpaque(false);
 	Bscorepanel.setLayout(new BorderLayout());
 	Bscorepanel.add("Center",Bscore);
 	Bscorepanel.add("South",Bbuttonpanel);
-<<<<<<< HEAD
-	Bscorepanel.setPreferredSize(new Dimension(450,450));
-=======
 	Bscorepanel.setPreferredSize(new Dimension(350,450));
->>>>>>> 鍔熻兘灏氭湭瀹屽杽
 	Bscorepanel.setOpaque(false);
 	Scorepanel.add(Bscorepanel);
 	
+	/*
+	 * 在整个得分面板中添加各个按钮
+	 * 开始，暂停，填写队员信息，换人，确定
+	 * 比赛最开始先点击Data按钮
+	 * 添加至少五个队员信息
+	 *然后才可以点击比赛开始
+	 * */
 	Start = new JButton("Start");
     Pause = new JButton("Pause");
     Data = new JButton("Data");
     Change = new JButton("Change");
+    Sure = new JButton("Sure");
     StatuesPanel = new JPanel();
     StatuesPanel.add(Start);
     StatuesPanel.add(Pause);
     StatuesPanel.add(Data);
     StatuesPanel.add(Change);
-//      Start.setBorder(null);
- //   Pause.setBorder(null);
-  //  Over.setBorder(null);
+    StatuesPanel.add(Sure);
     StatuesPanel.setOpaque(false);
     Start.addActionListener(this);
     Pause.addActionListener(this);
 	Data.addActionListener(this);
 	Change.addActionListener(this);
+	Sure.addActionListener(this);
 	Start.setEnabled(false);
 	Scorepanel.add(StatuesPanel);
 	Scorepanel.setOpaque(false);
-<<<<<<< HEAD
-//	if(A1.equals("")||A2.equals("")||A3.equals("")||A4.equals("")||A5.equals("")||B1.equals("")||B2.equals("")||B3.equals("")||B4.equals("")||B5.equals(""))
-	//	Start.setEnabled(false);
 	
-=======
-
->>>>>>> 鍔熻兘灏氭湭瀹屽杽
+	/*
+	 * 在可拆分窗体中左边添加队员犯规，右边添加记分牌
+	 */
+	
 	JSplitPane AaBpanel = new JSplitPane(
     		JSplitPane.HORIZONTAL_SPLIT,true,Foulpanel,Scorepanel);
 	AaBpanel.setOpaque(false);
 	
+	/*
+	 * 设置窗体背景为纯白色
+	 * 并设置其大小，标题
+	 * 关闭窗口时事件
+	 */
 	
-	
-    Container cp=BasketballFrame.getContentPane(); 
-    BasketballFrame.setLayout(new BorderLayout());	
+    Container cp=getContentPane(); 
+    setLayout(new BorderLayout());	
     cp.add(Labelpanel,BorderLayout.NORTH);
     cp.add(AaBpanel,BorderLayout.CENTER);
- //  cp.add(StatuesPanel,BorderLayout.SOUTH);
 
     
     ImageIcon background = new ImageIcon("Source//whitebackground.png");//这是背景图片  
     JLabel imgLabel = new JLabel(background);//将背景图放在标签里。  
-    BasketballFrame.getLayeredPane().add(imgLabel, new Integer(Integer.MIN_VALUE));//注意这里是关键，将背景标签添加到jfram的LayeredPane面板里。  
+    getLayeredPane().add(imgLabel, new Integer(Integer.MIN_VALUE));//注意这里是关键，将背景标签添加到jfram的LayeredPane面板里。  
     imgLabel.setBounds(0,0,background.getIconWidth(), background.getIconHeight());//设置背景标签的位置  
     ((JPanel)cp).setOpaque(false); //注意这里，将内容面板设为透明。这样LayeredPane面板中的背景才能显示出来。  
-    //screenSize.widthscreenSize.height-40
-    BasketballFrame.setBounds(50, 20,1228 ,695 );
-    BasketballFrame.setIconImage(Toolkit.getDefaultToolkit().getImage(
+   setBounds(130, 20,1050 ,695 );
+    setIconImage(Toolkit.getDefaultToolkit().getImage(
     		"Source//ilovethisgame_002.png"));
-    BasketballFrame.setTitle("篮球计分器");
-   BasketballFrame.addWindowListener(new WindowAdapter()
+    setTitle("篮球计分器");
+    
+   setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+   addWindowListener(new WindowAdapter()
    {
         public void windowClosing(WindowEvent e) 
         {
-          //  int exit=JOptionPane.showConfirmDialog(null, "确定退出吗？", "退出", JOptionPane.OK_CANCEL_OPTION);
-            //if(exit==0)
-        		time.Cancle();
-                System.exit(0);            	
+            int exit=JOptionPane.showConfirmDialog(Basketball.this, "确定退出吗？", "退出", JOptionPane.OK_CANCEL_OPTION);
+            if(exit==JOptionPane.OK_OPTION)
+            	{
+            	time.Cancle();
+        		dispose();
+        		}
         }
+        	
     });
-	BasketballFrame.setVisible(true);
-	BasketballFrame.validate();   
+	setVisible(true);
+	validate();   
 	}
 	
 	
-		
-
-	
 private void Data() 
 {
-		JDialog d = new JDialog(BasketballFrame,"填写两队队员资料",true);
+		JDialog d = new JDialog(this,"填写两队队员资料",true);
 		JTextField a = new JTextField("A队人员(至少五人)");
 		JTextField b = new JTextField("B队人员(至少五人)");
 		a.setEditable(false);
@@ -335,6 +361,8 @@ private void Data()
 			Bt[i] = new JTextField();
 			aandb.add(At[i]);
 			aandb.add(Bt[i]);
+			At[i].setFont(new Font("楷体",Font.PLAIN,20));
+			Bt[i].setFont(new Font("楷体",Font.PLAIN,20));
 		}
 		aandb.setLayout(new GridLayout(11,2));
 		savedata = new JButton("请按照号数_名字填写队员信息再保存");
@@ -379,9 +407,7 @@ public void actionPerformed(ActionEvent e)
 	{
 		an+=1;
 		if(an<10)
-			{
 			Ascore.setText("0"+an);
-			}
 		else
 			Ascore.setText(""+an);
 	}
@@ -389,9 +415,7 @@ public void actionPerformed(ActionEvent e)
 	{
 		an+=2;
 		if(an<10)
-		{
 		Ascore.setText("0"+an);
-		}
 		else
 			Ascore.setText(""+an);
 	}
@@ -399,9 +423,7 @@ public void actionPerformed(ActionEvent e)
 	{
 		an+=3;
 		if(an<10)
-		{
 		Ascore.setText("0"+an);
-		}
 	else
 		Ascore.setText(""+an);
 	}
@@ -409,9 +431,7 @@ public void actionPerformed(ActionEvent e)
 	{
 		bn+=1;
 		if(bn<10)
-			{
 			Bscore.setText("0"+bn);
-			}
 		else
 			Bscore.setText(""+bn);
 	}
@@ -419,9 +439,7 @@ public void actionPerformed(ActionEvent e)
 	{
 		bn+=2;
 		if(bn<10)
-		{
-		Bscore.setText("0"+bn);
-		}
+			Bscore.setText("0"+bn);
 		else
 			Bscore.setText(""+bn);
 	}
@@ -429,11 +447,9 @@ public void actionPerformed(ActionEvent e)
 	{
 		bn+=3;
 		if(bn<10)
-		{
-		Bscore.setText("0"+bn);
-		}
-	else
-		Bscore.setText(""+bn);
+			Bscore.setText("0"+bn);
+		else
+			Bscore.setText(""+bn);
 	}
 	if(e.getSource() == Abutton1)
 	{	
@@ -443,7 +459,8 @@ public void actionPerformed(ActionEvent e)
 			Abutton1.setText(a1+"次");
 		else
 		{
-			JOptionPane.showMessageDialog(null,"该选手已五犯离场，请更换队员","提示",JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null,
+					"该选手已五犯离场，请更换队员","提示",JOptionPane.ERROR_MESSAGE);
 			Abutton1.setText(0+"次");
 			a1=0;
 			Acb2.removeItem(Acb1.getSelectedItem());
@@ -451,7 +468,6 @@ public void actionPerformed(ActionEvent e)
 			Acb4.removeItem(Acb1.getSelectedItem());
 			Acb5.removeItem(Acb1.getSelectedItem());
 			Acb1.removeItem(Acb1.getSelectedItem());
-			
 		}
 		AAll.setText(aall+"次");
 	}
@@ -463,7 +479,8 @@ public void actionPerformed(ActionEvent e)
 			Abutton2.setText(a2+"次");
 		else
 			{
-				JOptionPane.showMessageDialog(null,"该选手已五犯离场，请更换队员","提示",JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null,
+						"该选手已五犯离场，请更换队员","提示",JOptionPane.ERROR_MESSAGE);
 				Abutton2.setText(0+"次");
 				a2=0;
 				Acb1.removeItem(Acb1.getSelectedItem());
@@ -482,7 +499,8 @@ public void actionPerformed(ActionEvent e)
 			Abutton3.setText(a3+"次");
 		else
 		{
-			JOptionPane.showMessageDialog(null,"该选手已五犯离场，请更换队员","提示",JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null,
+					"该选手已五犯离场，请更换队员","提示",JOptionPane.ERROR_MESSAGE);
 			Abutton3.setText(0+"次");
 			a3=0;
 			Acb1.removeItem(Acb1.getSelectedItem());
@@ -501,7 +519,8 @@ public void actionPerformed(ActionEvent e)
 			Abutton4.setText(a4+"次");
 		else
 		{
-			JOptionPane.showMessageDialog(null,"该选手已五犯离场，请更换队员","提示",JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null,
+					"该选手已五犯离场，请更换队员","提示",JOptionPane.ERROR_MESSAGE);
 			Abutton4.setText(0+"次");
 			a4=0;
 			Acb1.removeItem(Acb1.getSelectedItem());
@@ -520,7 +539,8 @@ public void actionPerformed(ActionEvent e)
 			Abutton5.setText(a5+"次");
 		else
 		{
-			JOptionPane.showMessageDialog(null,"该选手已五犯离场，请更换队员","提示",JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null,
+					"该选手已五犯离场，请更换队员","提示",JOptionPane.ERROR_MESSAGE);
 			Abutton5.setText(0+"次");
 			a5=0;
 			Acb1.removeItem(Acb1.getSelectedItem());
@@ -539,7 +559,8 @@ public void actionPerformed(ActionEvent e)
 			Bbutton1.setText(b1+"次");
 		else
 		{
-			JOptionPane.showMessageDialog(null,"该选手已五犯离场，请更换队员","提示",JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null,
+					"该选手已五犯离场，请更换队员","提示",JOptionPane.ERROR_MESSAGE);
 			Bbutton1.setText(0+"次");
 			b1=0;
 			Bcb2.removeItem(Bcb1.getSelectedItem());
@@ -558,7 +579,8 @@ public void actionPerformed(ActionEvent e)
 			Bbutton2.setText(b2+"次");
 		else
 		{
-			JOptionPane.showMessageDialog(null,"该选手已五犯离场，请更换队员","提示",JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null,
+					"该选手已五犯离场，请更换队员","提示",JOptionPane.ERROR_MESSAGE);
 			Bbutton2.setText(0+"次");
 			b2=0;
 			Bcb1.removeItem(Bcb2.getSelectedItem());
@@ -577,7 +599,8 @@ public void actionPerformed(ActionEvent e)
 			Bbutton3.setText(b3+"次");
 		else
 		{
-			JOptionPane.showMessageDialog(null,"该选手已五犯离场，请更换队员","提示",JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null,
+					"该选手已五犯离场，请更换队员","提示",JOptionPane.ERROR_MESSAGE);
 			Bbutton3.setText(0+"次");
 			b3=0;
 			Bcb1.removeItem(Bcb3.getSelectedItem());
@@ -596,7 +619,8 @@ public void actionPerformed(ActionEvent e)
 			Bbutton4.setText(b4+"次");
 		else
 		{
-			JOptionPane.showMessageDialog(null,"该选手已五犯离场，请更换队员","提示",JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null,
+					"该选手已五犯离场，请更换队员","提示",JOptionPane.ERROR_MESSAGE);
 			Bbutton4.setText(0+"次");
 			b4=0;
 			Bcb1.removeItem(Bcb4.getSelectedItem());
@@ -615,7 +639,8 @@ public void actionPerformed(ActionEvent e)
 			Bbutton5.setText(b5+"次");
 		else
 		{
-			JOptionPane.showMessageDialog(null,"该选手已五犯离场，请更换队员","提示",JOptionPane.ERROR_MESSAGE);			
+			JOptionPane.showMessageDialog(null,
+					"该选手已五犯离场，请更换队员","提示",JOptionPane.ERROR_MESSAGE);			
 			Bbutton5.setText(0+"次");
 			b5=0;
 			Bcb1.removeItem(Bcb5.getSelectedItem());
@@ -628,7 +653,15 @@ public void actionPerformed(ActionEvent e)
 	}
 	if(e.getSource() == savedata )
 	{
-		
+		if(At[0].getText().length()==0||At[1].getText().length()==0||
+					At[2].getText().length()==0||At[3].getText().length()==0||
+					At[4].getText().length()==0||Bt[0].getText().length()==0||
+					Bt[1].getText().length()==0||Bt[2].getText().length()==0||
+					Bt[3].getText().length()==0||Bt[4].getText().length()==0)
+			JOptionPane.showMessageDialog(null,
+					"请至少填写两队的前五位队员","提示",JOptionPane.WARNING_MESSAGE);
+		else
+		{	
 			for(int j =0;j<10;j++)
 				{
 					if(At[j].getText().length()!=0)
@@ -648,19 +681,11 @@ public void actionPerformed(ActionEvent e)
 						Bcb5.addItem(Bt[j].getText());
 						}
 				}	
-			/*Acb1.setEnabled(false);
-			Acb2.setEnabled(false);
-			Acb3.setEnabled(false);
-			Acb4.setEnabled(false);
-			Acb5.setEnabled(false);
-			Bcb1.setEnabled(false);
-			Bcb2.setEnabled(false);
-			Bcb3.setEnabled(false);
-			Bcb4.setEnabled(false);
-			Bcb5.setEnabled(false);*/
+		}
 			Data.setEnabled(false);
 			Start.setEnabled(true);
 	}
+	
 	if(e.getSource() == Change )
 	{
 		Acb1.setEnabled(true);
@@ -674,8 +699,20 @@ public void actionPerformed(ActionEvent e)
 		Bcb4.setEnabled(true);
 		Bcb5.setEnabled(true);
 	}
+	if(e.getSource() == Sure )
+	{
+		Acb1.setEnabled(false);
+		Acb2.setEnabled(false);
+		Acb3.setEnabled(false);
+		Acb4.setEnabled(false);
+		Acb5.setEnabled(false);
+		Bcb1.setEnabled(false);
+		Bcb2.setEnabled(false);
+		Bcb3.setEnabled(false);
+		Bcb4.setEnabled(false);
+		Bcb5.setEnabled(false);
+	}
 }
-
 
 public static void main(String[] args)
 	{

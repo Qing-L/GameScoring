@@ -25,10 +25,6 @@ public class CountTime extends JPanel //implements ActionListener
 		LPanel.setOpaque(false);
 		 setLayout(new BorderLayout());
 		add("Center",LPanel);   
-<<<<<<< HEAD
-        
-=======
->>>>>>> 鍔熻兘灏氭湭瀹屽杽
 	}
 	
 	public void Start()
@@ -45,11 +41,6 @@ public class CountTime extends JPanel //implements ActionListener
 					//h=show/1000/60/60;//时
 					 m=show/1000/60%60;//分
 					 s=show/1000%60;//秒
-					if(m == 6)
-					{
-						m=5;
-						s=59;
-					}
 					if(m<10&&s<10)
 						l.setText("0"+m+":"+"0"+s);
 					else if(m<10&&s>=10)
@@ -60,14 +51,16 @@ public class CountTime extends JPanel //implements ActionListener
 						l.setText(m+":"+s);
 					}
 		},0,1000);
-	timer.schedule(new TimerTask()
-	{
-		public void run()
+	
+		timer.schedule(new TimerTask()
 		{
-			JOptionPane.showMessageDialog(null,"第一节结束，请休息一分钟");
+			public void run()
+			{
+				JOptionPane.showMessageDialog(null,"第一节结束，请休息一分钟");
+			}
 		}
-	}
-	, new Date(start+1*60*1000));
+		, new Date(start+1*60*1000));
+	
 	timer.schedule(new TimerTask()
 	{
 		public void run()
@@ -75,6 +68,7 @@ public class CountTime extends JPanel //implements ActionListener
 			JOptionPane.showMessageDialog(null,"休息时间结束，请继续比赛");
 		}
 	}, new Date(start+1*60*1000+30*1000));
+	
 	timer.schedule(new TimerTask()
 	{
 		public void run()
@@ -89,6 +83,7 @@ public class CountTime extends JPanel //implements ActionListener
 			JOptionPane.showMessageDialog(null,"中场休息结束，请交换场地并继续比赛");
 		}
 	}, new Date(start+3*60*1000+30*1000));
+	
 	timer.schedule(new TimerTask()
 	{
 		public void run()
@@ -96,6 +91,7 @@ public class CountTime extends JPanel //implements ActionListener
 			JOptionPane.showMessageDialog(null,"第三节结束，请休息一分钟");
 		}
 	}, new Date(start+4*60*1000+30*1000));
+	
 	timer.schedule(new TimerTask()
 	{
 		public void run()
@@ -103,7 +99,8 @@ public class CountTime extends JPanel //implements ActionListener
 			JOptionPane.showMessageDialog(null,"休息结束，请继续比赛");
 		}
 	}, new Date(start+5*60*1000));
-	 //计时结束时候，停止全部timer计时计划任务
+	
+	//计时结束时候，停止全部timer计时计划任务
     timer.schedule(new TimerTask()
      {
         public void run()
@@ -113,12 +110,11 @@ public class CountTime extends JPanel //implements ActionListener
          }
      }, End);
 	}
+	
+	
 	public void Cancle()
 	{
 		timer.cancel();
 	}
-<<<<<<< HEAD
-=======
 	
->>>>>>> 鍔熻兘灏氭湭瀹屽杽
 }
