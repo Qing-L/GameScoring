@@ -17,14 +17,16 @@ public class ExcelExporter
         TableModel model = table.getModel();          
         BufferedWriter bWriter = new BufferedWriter(new FileWriter(file,true));    
         
+        //获取表格的列名称
         for(int i=0; i < model.getColumnCount(); i++) 
         {  
-            bWriter.write(model.getColumnName(i));  
+            bWriter.write(""+ table.getColumnModel().getColumn(i).getHeaderValue());  
             bWriter.write("\t");  
         } 
         
         bWriter.newLine(); 
         
+        //获取表格内容
         for(int i=0; i< model.getRowCount(); i++) 
         {  
             for(int j=0; j < model.getColumnCount(); j++) 

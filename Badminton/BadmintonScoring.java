@@ -5,6 +5,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.FileDialog;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -39,18 +40,19 @@ public class BadmintonScoring extends JFrame implements ActionListener, MouseLis
 {
 	/**********变量定义**************/	
 	//窗体
-	JFrame BadFrame = new JFrame("羽毛球计分器");	
-	JPanel LeftPane = new JPanel();
-	JPanel RightPane = new JPanel();
-	JSplitPane SplitPane;
+	JFrame BadFrame = new JFrame("羽毛球计分器");	//主窗体
+	JPanel LeftPane = new JPanel(); //左面板
+	JPanel RightPane = new JPanel(); //右面板
+	JSplitPane SplitPane;//分割面板，装左右面板
 	JPanel panel = new ImagePanel ();//动图
 	
-	//按钮
+	//左面板按钮
 	JButton Return = new JButton(new ImageIcon("image/返回.png"));
 	JButton Addplayer = new JButton(new ImageIcon("image/添加选手.png")); 
 	JButton Start = new JButton(new ImageIcon("image/开始.png"));
 	JButton CheckAll = new JButton(new ImageIcon("image/查看.png"));
 	JButton Save = new JButton(new ImageIcon("image/保存.png"));
+	//右面板按钮
 	JButton LeftWin = new JButton(new ImageIcon("image/得分.jpg") );
 	JButton RightWin = new JButton(new ImageIcon("image/得分.jpg"));
 	JButton LeftReset = new JButton(new ImageIcon("image/撤销.jpg"));
@@ -71,23 +73,13 @@ public class BadmintonScoring extends JFrame implements ActionListener, MouseLis
 	int Jushu = 1;//局数
 	int Lwin = 0;//左方获胜次数
 	int Rwin = 0;//右方获胜次数
-	
-	int n1_1 = 0;int n1_2 = 0;
-	int n2_1 = 0;int n2_2 = 0;
-	int n3_1 = 0;int n3_2 = 0;
-			
-	//参赛人员名称
-	String p1_1 = null,p1_2 = null,p2_1 = null,p2_2 = null;
+	boolean Status = false ;//用于监控局分窗体是否被打开，避免重复被打开，false表示未被打开。
 	
 	//文本框
-	JTextField ShowName1_1 = new JTextField(10);
-	JTextField ShowName1_2 = new JTextField(10);
-	JTextField ShowName2_1 = new JTextField(10);
-	JTextField ShowName2_2 = new JTextField(10);
-	JTextField AddName1_1 = new JTextField(10);
-	JTextField AddName1_2 = new JTextField(10);
-	JTextField AddName2_1 = new JTextField(10);
-	JTextField AddName2_2 = new JTextField(10);
+	JTextField[] ShowName = {new JTextField(10),new JTextField(10),
+			new JTextField(10),new JTextField(10)};
+	JTextField[] AddName = {new JTextField(10),new JTextField(10),
+			new JTextField(10),new JTextField(10),};
 	
 	//比分数组	
 	int[] Zongfen = {0,0,0,0,0,0};
@@ -116,27 +108,39 @@ public class BadmintonScoring extends JFrame implements ActionListener, MouseLis
 	String[] Colnames0 = {"参赛人员","0"};
     DefaultTableModel Model0 = new DefaultTableModel(Colnames0,2)
 	  {
-  	   private static final long serialVersionUID = 1L;
-	        
+  	        private static final long serialVersionUID = 1L;	        
 	        public boolean isCellEditable(int row, int column)
 	        {
-	                return false;
+	               return false;
 	        };		
 	  };
-	  DefaultTableModel Model1 = Model0;
-	  DefaultTableModel Model2 = Model0;
+	  DefaultTableModel Model1 = new DefaultTableModel(Colnames0,2)
+	  {
+	  	     private static final long serialVersionUID = 1L;		        
+		     public boolean isCellEditable(int row, int column)
+		     {
+		            return false;
+		     };		
+	  };
+	  DefaultTableModel Model2 = new DefaultTableModel(Colnames0,2)
+	  {
+	  	     private static final long serialVersionUID = 1L;		        
+		     public boolean isCellEditable(int row, int column)
+		     {
+		            return false;
+		     };		
+	  };
 	  JTable Table0 = new JTable(Model0);//第一局表格
 	  JTable Table1 = new JTable(Model1);//第二局表格
 	  JTable Table2 = new JTable(Model2);//第三局表格
-	  int k=0;
 	
 	public BadmintonScoring()
 	{		
 		/***********按钮设置**********/
 		//左面板按钮
-		Return.setBounds(30, 10, 101, 94);	
-		Return.setBorderPainted(false);
-		Return.setBackground(Color.white);
+		Return.setBounds(30, 10, 101, 94);//设置位置	
+		Return.setBorderPainted(false);//设置边框
+		Return.setBackground(Color.white);//设置背景
 		Addplayer.setBounds(30, 140, 97, 102);
 		Addplayer.setBorderPainted(false);
 		Addplayer.setBackground(Color.white);
@@ -157,10 +161,10 @@ public class BadmintonScoring extends JFrame implements ActionListener, MouseLis
 		PK.setBounds(200, 10, 100, 100);
 		
 		//文本框
-		ShowName1_1.setBounds(110, 20, 100, 20);
-		ShowName1_2.setBounds(110, 60, 100, 20);
-		ShowName2_1.setBounds(310, 20, 100, 20);
-		ShowName2_2.setBounds(310, 60, 100, 20);
+		ShowName[0].setBounds(110, 20, 100, 20);
+		ShowName[1].setBounds(110, 60, 100, 20);
+		ShowName[2].setBounds(310, 20, 100, 20);
+		ShowName[3].setBounds(310, 60, 100, 20);
 		
 		//按钮
 		LeftWin.setBounds(80, 500, 110, 60);
@@ -195,17 +199,13 @@ public class BadmintonScoring extends JFrame implements ActionListener, MouseLis
 		LeftPane.add(Start);
 		LeftPane.add(CheckAll);
 		LeftPane.add(Save);
-		LeftPane.setOpaque(false);
+		LeftPane.setOpaque(false);//设置为透明
 		
 		//右面板
 		RightPane.setLayout(null);
 		RightPane.add(Player1);
-		RightPane.add(ShowName1_1);
-		RightPane.add(ShowName1_2);
 		RightPane.add(PK);
 		RightPane.add(Player2);
-		RightPane.add(ShowName2_1);
-		RightPane.add(ShowName2_2);
 		RightPane.add(LeftWin);
 		RightPane.add(RightWin);
 		RightPane.add(VS);
@@ -216,6 +216,10 @@ public class BadmintonScoring extends JFrame implements ActionListener, MouseLis
 		RightPane.setOpaque(false);		
 		RightPane.add(ScoreRight);		
 		RightPane.add(ScoreLeft);
+		for(int i=0 ;i<4;i++)
+		{
+			RightPane.add(ShowName[i]);
+		}
 		
 		//分割面板
 		SplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, LeftPane, RightPane);
@@ -225,7 +229,7 @@ public class BadmintonScoring extends JFrame implements ActionListener, MouseLis
 		SplitPane.setOpaque(false);
 				
 		/**********比分表格初始化***********/
-		//表格1设置
+		//局分表格1设置
 		Font font = new Font(" ",3,15);
 		TableRenderer.setHorizontalAlignment(SwingConstants.CENTER);
         Table0.setDefaultRenderer(Object.class, TableRenderer);
@@ -241,7 +245,7 @@ public class BadmintonScoring extends JFrame implements ActionListener, MouseLis
 		Model0.setValueAt(Jufen1_1.get(0), 0, 1);
         Model0.setValueAt(Jufen1_2.get(0), 1, 1);
         
-        //表格2设置
+        //局分表格2设置
 	    TableRenderer.setHorizontalAlignment(SwingConstants.CENTER);
         Table1.setDefaultRenderer(Object.class, TableRenderer);
         Table1.setFont(font);  	        
@@ -256,7 +260,7 @@ public class BadmintonScoring extends JFrame implements ActionListener, MouseLis
 		Model1.setValueAt(Jufen2_1.get(0), 0, 1);
         Model1.setValueAt(Jufen2_2.get(0), 1, 1); 
   	  
-        //表格3设置
+        //局分表格3设置
         TableRenderer.setHorizontalAlignment(SwingConstants.CENTER);
         Table2.setDefaultRenderer(Object.class, TableRenderer);
         Table2.setFont(font);  	        
@@ -273,12 +277,12 @@ public class BadmintonScoring extends JFrame implements ActionListener, MouseLis
         
 		/*********窗体设置*********/
 		BadFrame.setSize(750, 700);
-		BadFrame.setVisible(true);
 		BadFrame.setLayout(new BorderLayout());
 		BadFrame.add(SplitPane, BorderLayout.CENTER);
-		BadFrame.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
-		BadFrame.setLocationRelativeTo(this);
+		BadFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		BadFrame.setLocationRelativeTo(null);
 		BadFrame.setVisible(true);
+		BadFrame.setResizable(false);
 		
 		//设置背景
 		ImageIcon img = new ImageIcon("image/白色背景.jpg");
@@ -291,7 +295,7 @@ public class BadmintonScoring extends JFrame implements ActionListener, MouseLis
 
 		validate();
 		
-		/*********时间监听**********/
+		/*********动作事件监听**********/
 		Return.addActionListener(this);
 		Addplayer.addActionListener(this);
 		Start.addActionListener(this);
@@ -323,24 +327,18 @@ public class BadmintonScoring extends JFrame implements ActionListener, MouseLis
 			Addframe.setResizable(false);
 			Addframe.setLayout(null);
 			
-			//标签
-			Font font1 = new Font("选手2",30,25);
-			
-			JLabel Player3 = new JLabel("选手1-1");
-			Player3.setFont(font1);
-			Player3.setBounds(50, 70, 150, 30);	
-			
-			JLabel Player4 = new JLabel("选手1-2");
-			Player4.setFont(font1);
-			Player4.setBounds(50, 120, 150, 30);	
-			
-			JLabel Player5 = new JLabel("选手2-1");
-			Player5.setFont(font1);
-			Player5.setBounds(50, 170, 150, 30);
-			
-			JLabel Player6 = new JLabel("选手2-2");
-			Player6.setFont(font1);
-			Player6.setBounds(50, 220, 150, 30);
+			//标签			
+			JLabel[] Player = {new JLabel("选手1-1"),new JLabel("选手1-2"),
+					new JLabel("选手2-1"),new JLabel("选手2-2")};
+		
+		    for(int i=0 ;i<4;i++)
+		    {
+		    	Player[i].setFont(new Font("选手2",30,25));
+		    }
+			Player[0].setBounds(50, 70, 150, 30);	
+			Player[1].setBounds(50, 120, 150, 30);	;
+			Player[2].setBounds(50, 170, 150, 30);
+			Player[3].setBounds(50, 220, 150, 30);
 			
 			JLabel Instruction = new JLabel("请输入选手名字！");
 			Instruction.setBounds(70, 10, 400, 50);
@@ -348,10 +346,10 @@ public class BadmintonScoring extends JFrame implements ActionListener, MouseLis
 			Instruction.setForeground(Color.red);
 			
 			//文本框			
-			AddName1_1.setBounds(200, 70, 120, 30);
-			AddName1_2.setBounds(200, 120, 120, 30);
-			AddName2_1.setBounds(200, 170, 120, 30);
-			AddName2_2.setBounds(200, 220, 120, 30);
+			AddName[0].setBounds(200, 70, 120, 30);
+			AddName[1].setBounds(200, 120, 120, 30);
+			AddName[2].setBounds(200, 170, 120, 30);
+			AddName[3].setBounds(200, 220, 120, 30);
 			
 			//按钮
 			JButton Yes = new JButton("确定");
@@ -361,31 +359,33 @@ public class BadmintonScoring extends JFrame implements ActionListener, MouseLis
 			
 			//副窗体
 			Addframe.add(Instruction);
-			Addframe.add(Player3);
-			Addframe.add(Player4);
-			Addframe.add(Player5);
-			Addframe.add(Player6);
-			Addframe.add(AddName1_1);
-			Addframe.add(AddName1_2);
-			Addframe.add(AddName2_1);
-			Addframe.add(AddName2_2);
 			Addframe.add(Cancel);
 			Addframe.add(Yes);	
-			Addframe.setVisible(true);
+			Addframe.setVisible(true);			
+			for(int i=0 ;i<4;i++)
+			{
+				Addframe.add(Player[i]);
+				Addframe.add(AddName[i]);
+				AddName[i].setFont(new Font("",3,20));
+			}
+			Addframe.addWindowListener(new WindowAdapter() 
+			{
+				public void windowClosing(WindowEvent e) 
+				{
+					Addframe.dispose();
+					Addplayer.setEnabled(true);
+				}
+			});
+			Addplayer.setEnabled(false);
 			
 			//监听事件
-			Yes.addActionListener(
-					new ActionListener()
+			Yes.addActionListener(new ActionListener()
 					{  
 						public void actionPerformed(ActionEvent e)
 						{  
-		                    p1_1 =  AddName1_1.getText();
-		                    p1_2 =  AddName1_2.getText();
-		                    p2_1 =  AddName2_1.getText();
-		                    p2_2 =  AddName2_2.getText();
-		                    Addframe.dispose();
-		                    
+		                    Addframe.dispose();		                    
 		                    Start.setEnabled(true);
+		                    Addplayer.setEnabled(true);
                         }  
                     });
 			Cancel.addActionListener(new ActionListener()
@@ -393,12 +393,13 @@ public class BadmintonScoring extends JFrame implements ActionListener, MouseLis
 						public void actionPerformed(ActionEvent e)
 						{  
 		                    Addframe.dispose();
+		                    Addplayer.setEnabled(true);
                         }  
                     });
 		}
 		if(e.getSource()==CheckAll)
 		{						
-			JFrame Tableframe = new JFrame("总比分 ");
+			final JFrame Tableframe = new JFrame("总比分 ");
 			Tableframe.setBounds(500,300,400,210);
 	        Tableframe.setResizable(false);
 	        Tableframe.setLayout(new BorderLayout());
@@ -425,8 +426,7 @@ public class BadmintonScoring extends JFrame implements ActionListener, MouseLis
 	        Table.setFont(font);
 	        TableColumnModel columnModel = Table.getColumnModel();   	        
 	         
-	        //添加滚动条
-	        Table.setFillsViewportHeight(true);      
+	        //添加滚动条     
 	        JScrollPane ScrollPane = new JScrollPane(Table);
 	        Tableframe.add(ScrollPane);
 	        
@@ -437,9 +437,18 @@ public class BadmintonScoring extends JFrame implements ActionListener, MouseLis
 	        
 	        Tableframe.setVisible(true);
 			Tableframe.validate();
+			Tableframe.addWindowListener(new WindowAdapter() 
+			{
+				public void windowClosing(WindowEvent e) 
+				{
+					Tableframe.dispose();	
+					CheckAll.setEnabled(true);
+				}
+			});
+			CheckAll.setEnabled(false);
 			
 			//单元格监听事件
-			Table.addMouseListener(this);
+			OpenListener();	
 		}
 		if(e.getSource()==LeftWin)
 		{
@@ -452,33 +461,20 @@ public class BadmintonScoring extends JFrame implements ActionListener, MouseLis
 			{
 				fencha = 0 - fencha;
 			}
-			if((fencha>=2 && (Lbifen>20||Rbifen>20)))
+			if((fencha>=2 && (Lbifen>20||Rbifen>20))||(Lbifen >= 29||Rbifen >= 29))
 			{
 				Lwin++;
 				LeftWin.setEnabled(false);
 				RightWin.setEnabled(false);
+	
 				if(Jushu < 3)
 				{
 					if((Rwin ==2 && Lwin == 0)||(Rwin == 0 && Lwin ==2))
 					{
 						New.setEnabled(false);
+						Start.setEnabled(true);
 					}
-					else New.setEnabled(true);	    
-				}
-				AddZongfen();
-			}
-			if(Lbifen >= 29||Rbifen >= 29)
-			{
-				Lwin++;
-				LeftWin.setEnabled(false);
-				RightWin.setEnabled(false);
-				if(Jushu < 3)
-				{
-					if((Rwin ==2 && Lwin == 0)||(Rwin == 0 && Lwin ==2))
-					{
-						New.setEnabled(false);
-					}
-					else New.setEnabled(true);	    
+					else New.setEnabled(true);
 				}
 				AddZongfen();
 			}
@@ -499,7 +495,7 @@ public class BadmintonScoring extends JFrame implements ActionListener, MouseLis
 			{
 				fencha = 0 - fencha;
 			}
-			if((fencha>=2 && (Lbifen>20||Rbifen>20)))
+			if((fencha>=2 && (Lbifen>20||Rbifen>20))||(Lbifen >= 29 || Rbifen >= 29))
 			{
 				Rwin++;
 				LeftWin.setEnabled(false);
@@ -510,27 +506,11 @@ public class BadmintonScoring extends JFrame implements ActionListener, MouseLis
 					if((Rwin ==2 && Lwin == 0)||(Rwin == 0 && Lwin ==2))
 					{
 						New.setEnabled(false);
+						Start.setEnabled(true);
 					}
-					else New.setEnabled(true);	    
+					else New.setEnabled(true);				
 				}
-				AddZongfen();
-					
-			}
-			if(Lbifen >= 29 || Rbifen >= 29)
-			{
-				Rwin++;
-				LeftWin.setEnabled(false);
-				RightWin.setEnabled(false);
-				
-				if(Jushu < 3)
-				{
-					if((Rwin ==2 && Lwin == 0)||(Rwin == 0 && Lwin ==2))
-					{
-						New.setEnabled(false);
-					}
-					else New.setEnabled(true);	    
-				}
-				AddZongfen();
+				AddZongfen();					
 			}
 			if(Rbifen !=0 )
 			{
@@ -546,6 +526,12 @@ public class BadmintonScoring extends JFrame implements ActionListener, MouseLis
 			{
 				LeftReset.setEnabled(false);
 			}
+			if(Lbifen < 21 )
+			{
+				New.setEnabled(false);
+				LeftWin.setEnabled(true);
+				RightWin.setEnabled(true);
+			}
 		}
 		if(e.getSource() == RightReset)
 		{
@@ -556,6 +542,12 @@ public class BadmintonScoring extends JFrame implements ActionListener, MouseLis
 			{
 				RightReset.setEnabled(false);
 			}
+			if(Rbifen < 21 )
+			{
+				New.setEnabled(false);
+				RightWin.setEnabled(true);
+				LeftWin.setEnabled(true);
+			}
 		}
 		if(e.getSource() == New)
 		{
@@ -565,11 +557,10 @@ public class BadmintonScoring extends JFrame implements ActionListener, MouseLis
 			
 			ScoreLeft.setText(""+Lbifen);
 			ScoreRight.setText(""+Rbifen);
-			
+		
 			LeftWin.setEnabled(true);
 			RightWin.setEnabled(true);			
-			New.setEnabled(false);
-			
+			New.setEnabled(false);				
 		}
 		if(e.getSource() == Start)
 		{
@@ -595,19 +586,21 @@ public class BadmintonScoring extends JFrame implements ActionListener, MouseLis
 			Jufen2_2.removeAllElements();Jufen2_2.add(0);			
 			Jufen3_1.removeAllElements();Jufen3_1.add(0);			
 			Jufen3_2.removeAllElements();Jufen3_2.add(0);
-			
-			n1_1 = 0;n1_2 = 0;
-			n2_1 = 0;n2_2 = 0;
-			n3_1 = 0;n3_2 = 0;
-						
-			ShowName1_1.setText(p1_1);
-			ShowName1_2.setText(p1_2);
-			ShowName2_1.setText(p2_1);
-			ShowName2_2.setText(p2_2);
+		
+			Model0.setColumnCount(2);
+			Model1.setColumnCount(2);
+			Model2.setColumnCount(2);
+				
+			Font f = new Font("",3,20);
+			for(int i=0;i<4;i++)
+			{
+				ShowName[i].setText(AddName[i].getText());
+				ShowName[i].setFont(f);
+			}
+			Start.setEnabled(false);
 		}
 		if(e.getSource() == Save)
 		{
-			
 			try
 			{
 				if(!(new File("Scoring/").isDirectory())) 
@@ -650,7 +643,7 @@ public class BadmintonScoring extends JFrame implements ActionListener, MouseLis
 			        	exp.exportTable(Table0, file1);  
 			        	exp.exportTable(Table1, file1);
 			        	exp.exportTable(Table2, file1);
-			        } 
+			        } 					
 					catch (IOException ex)
 					{  
 			            System.out.println(ex.getMessage());  
@@ -728,6 +721,7 @@ public class BadmintonScoring extends JFrame implements ActionListener, MouseLis
 		 {
 		      RowIndex = Table.rowAtPoint(e.getPoint());
 		      ColumnIndex = Table.columnAtPoint(e.getPoint());
+		      
 			  
 		      if(ColumnIndex == 3)
 		      {
@@ -736,68 +730,85 @@ public class BadmintonScoring extends JFrame implements ActionListener, MouseLis
 	        	  //查看不同局数的比分
 	        	  if(RowIndex == 0)
 	        	  { 
+	        		  Model0.setColumnCount(Jufen1_1.size()+1);
 	        		  for(int i=1 ; i<Jufen1_1.size();i++)
 	        		  {
-	        			  Model0.addColumn(""+i);
+	        			  Table0.getColumnModel().getColumn(i+1).setHeaderValue(i);
 	      				  Model0.setValueAt(Jufen1_1.get(i), 0, (i+1));
-		        		  Model0.setValueAt(Jufen1_2.get(i), 1, (i+1));
-      			      }	
-	        		  
+		        		  Model0.setValueAt(Jufen1_2.get(i), 1, (i+1));	        			   			  
+      			      }	       		  
 	        		  setFixColumnWidth(Table0);//设置固定列宽
 			          Table0.getColumnModel().getColumn(0).setPreferredWidth(150);	
 		  	          JScrollPane ScrollPane0 = new JScrollPane(Table0,
 		  	        		 ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER,
-			  	        		ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+			  	        	 ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		  	          Frame0.add(ScrollPane0);
 		  	          Frame0.setTitle("第一局比分");
 	        	  }
 	        	
 	        	  if(RowIndex == 1)
 	        	  {
+	        		  Model1.setColumnCount(Jufen2_1.size()+1);
 	        		  for(int i=1 ; i<Jufen2_1.size();i++)
-	        		  {
-	        		      Model1.addColumn(""+i);
+	        		  {  
+	        			  Table1.getColumnModel().getColumn(i+1).setHeaderValue(i);
 	        		      Model1.setValueAt(Jufen2_1.get(i), 0, (i+1));
-	        		      Model1.setValueAt(Jufen2_2.get(i), 1, (i+1));
+	        		      Model1.setValueAt(Jufen2_2.get(i), 1, (i+1));	  
 	        		  }	
-	        		  
 	        		  setFixColumnWidth(Table1);//设置固定列宽
 			          Table1.getColumnModel().getColumn(0).setPreferredWidth(150);	
 		  	          JScrollPane ScrollPane1 = new JScrollPane(Table1,
 		  	        		 ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER,
-			  	        		ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+			  	             ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 	        		  Frame0.add(ScrollPane1);
 	        		  Frame0.setTitle("第二局比分");
 	        	  }
 	        	   	        	  
 	        	  if(RowIndex == 2)
-	        	  {	        		  
+	        	  {	 
+	        		  Model2.setColumnCount(Jufen3_1.size()+1);
 	        		  for(int i=1 ; i<Jufen3_1.size();i++)
 	        		  {
-	        		      Model2.addColumn(""+i);
+	        			  Table2.getColumnModel().getColumn(i+1).setHeaderValue(i);
 	        		      Model2.setValueAt(Jufen3_1.get(i), 0, (i+1));
-	        		      Model2.setValueAt(Jufen3_2.get(i), 1, (i+1));;
-	        		  }	
+	        		      Model2.setValueAt(Jufen3_2.get(i), 1, (i+1));	        			 
+	        		  }
 	        		  setFixColumnWidth(Table2);//设置固定列宽
 			          Table2.getColumnModel().getColumn(0).setPreferredWidth(150);	
 		  	          JScrollPane ScrollPane2 = new JScrollPane(Table2,
 		  	        		 ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER,
-			  	        		ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+			  	             ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		  	          Frame0.add(ScrollPane2);
 		  	          Frame0.setTitle("第三局比分");
 	        	  }
 	  	              		  
 	    		  Frame0.setBounds(300, 300, 500, 170);
 	    		  Frame0.setVisible(true);
-	    		  Frame0.addWindowListener(new WindowAdapter() 
+	    		  Frame0.setResizable(false);
+	    		  Frame0.addWindowListener(new WindowAdapter()
 	    		  {
 	    			  public void windowClosing(WindowEvent e) 
 	    			  {
 	    				  Frame0.dispose();
+	    				  Status = false;
+	    				  OpenListener();
 	    			  }
 	    		  });
+	    		  Status = true;
+	    		  OpenListener();
 		      }
 		 }
+	}
+	public void OpenListener()
+	{
+		if(Status == true)
+		  {
+			  Table.removeMouseListener(this);
+		  }
+		  else if(Status == false)
+		  {
+			  Table.addMouseListener(this);
+		  }
 	}
 	
 	/********设置固定表格列宽**********/
@@ -813,7 +824,7 @@ public class BadmintonScoring extends JFrame implements ActionListener, MouseLis
             tc.setMaxWidth(50);
         }
 	}
-	
+
 	/********未使用函数**********/
 	public void mousePressed(MouseEvent e) { }
 	public void mouseReleased(MouseEvent e) { }
@@ -824,7 +835,6 @@ public class BadmintonScoring extends JFrame implements ActionListener, MouseLis
 	public static void main(String[] args)
 	{
 		new BadmintonScoring();
-	}
-	
+	}	
 }
 
