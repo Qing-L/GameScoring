@@ -14,7 +14,7 @@ public class CountTime extends JPanel //implements ActionListener
 	JLabel l = new JLabel();
 	JPanel LPanel;
 	long show,h,m,s,pausetime,continuetime,start;
-	int min = 54;
+	int min = 6;
 	Timer timer;
 	CountTime()
 	{
@@ -31,8 +31,6 @@ public class CountTime extends JPanel //implements ActionListener
 	{
 		timer =new Timer();
 		start = System.currentTimeMillis();
-		// final long end = start+min*60*1000;
-		//Date End = new Date(end);
 		timer.schedule(new TimerTask()
 		{
 			public void run()
@@ -45,52 +43,6 @@ public class CountTime extends JPanel //implements ActionListener
 					TimeShow();
 					}
 		},0,1000);
-
-		/*timer.schedule(new TimerTask()
-		{
-			public void run()
-			{	JOptionPane.showMessageDialog(null,"第一节结束，请休息一分钟");	}
-		}
-		, new Date(start+1*60*1000));
-	
-		timer.schedule(new TimerTask()
-		{
-			public void run()
-			{	JOptionPane.showMessageDialog(null,"休息时间结束，请继续比赛");	}
-	}, new Date(start+1*60*1000+30*1000));
-	
-	timer.schedule(new TimerTask()
-	{
-		public void run()
-		{		}
-	}, new Date(start+2*60*1000+30*1000));
-	timer.schedule(new TimerTask()
-	{
-		public void run()
-		{	JOptionPane.showMessageDialog(null,"中场休息结束，请交换场地并继续比赛");	}
-	}, new Date(start+3*60*1000+30*1000));
-	
-	timer.schedule(new TimerTask()
-	{
-		public void run()
-		{		}
-	}, new Date(start+4*60*1000+30*1000));
-	
-	timer.schedule(new TimerTask()
-	{
-		public void run()
-		{	JOptionPane.showMessageDialog(null,"休息结束，请继续比赛");		}
-	}, new Date(start+5*60*1000));
-	
-	//计时结束时候，停止全部timer计时计划任务
-    timer.schedule(new TimerTask()
-     {
-        public void run()
-         {
-             timer.cancel();
-             JOptionPane.showMessageDialog(null,"时间到，比赛结束");
-         }
-     }, End);*/
 	}
 	
 	
@@ -105,7 +57,7 @@ public class CountTime extends JPanel //implements ActionListener
 		TimeShow();
 	}
 	
-	
+
 	public void Continue()
 	{
 		continuetime+= System.currentTimeMillis();
@@ -122,7 +74,6 @@ public class CountTime extends JPanel //implements ActionListener
 					TimeShow();
 					}
 		},0,1000);
-		
 	}
 	
 	
