@@ -14,7 +14,7 @@ public class CountTime extends JPanel //implements ActionListener
 	JLabel l = new JLabel();
 	JPanel LPanel;
 	long show,h,m,s,pausetime,continuetime,start;
-	int min = 6;
+	int min = 54;
 	Timer timer;
 	CountTime()
 	{

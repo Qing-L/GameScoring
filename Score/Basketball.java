@@ -3,6 +3,7 @@ package Score;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
+import java.io.IOException;
 import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -15,7 +16,7 @@ public class Basketball extends JFrame implements ActionListener
 	JTextField A1,A2,A3,A4,A5,B1,B2,B3,B4,B5;
 	JTextField[] At,Bt;
 	JComboBox Acb1,Acb2,Acb3,Acb4,Acb5,Bcb1,Bcb2,Bcb3,Bcb4,Bcb5;
-	JButton	 Abutton1,Abutton2,Abutton3,Abutton4,Abutton5,Bbutton1,
+	JButton	 Return,Help,Abutton1,Abutton2,Abutton3,Abutton4,Abutton5,Bbutton1,
 				Bbutton2,Bbutton3,Bbutton4,Bbutton5,AButton_1,AButton_2,AButton_3,
 				BButton_1,BButton_2,BButton_3,Start,Pause,Continue,Data,Change,Sure,See,Reset,savedata;
 	ImageIcon startimg,pauseimg,overimg;
@@ -42,6 +43,21 @@ public class Basketball extends JFrame implements ActionListener
 	Labelpanel = new JPanel();
 	
 	/*A队标签栏的设置*/
+	Return = new JButton("Return");
+	
+	Return.setPreferredSize(new Dimension(150,80));
+	Return.setFont(new Font("方正舒体",Font.BOLD,32));
+	Return.addActionListener(this);
+	
+	Labelpanel.add(Return);
+	
+	Help = new JButton("Help");
+	
+	Help.setPreferredSize(new Dimension(150,80));
+	Help.setFont(new Font("方正舒体",Font.BOLD,32));
+	Help.addActionListener(this);
+	
+	Labelpanel.add(Help);
 	
 	ALabel = new JLabel(new ImageIcon("Source\\10.png"));
 	JTextField Aname = new JTextField(3);
@@ -395,6 +411,24 @@ public class Basketball extends JFrame implements ActionListener
 @SuppressWarnings("unchecked")
 public void actionPerformed(ActionEvent e)
 {
+	if(e.getSource() == Return)
+	{
+		this.dispose();
+	}
+	if(e.getSource() == Help)
+	{
+		Runtime run = Runtime.getRuntime();
+		try 
+		{
+			Process process = run.exec("cmd /c call " + "\""
+					+ "Source\\help.doc" + "\"");
+		} 
+		catch (IOException e1)
+		{
+			e1.printStackTrace();
+			System.exit(0);
+		}
+	}
 	if(e.getSource() == Start)
 	{
 		Abutton1.setEnabled(true);
@@ -422,18 +456,18 @@ public void actionPerformed(ActionEvent e)
 		
 		time.Start();
 		
-		if(time.m == 4&& time.s == 0)
+		/*if(time.m == 44&& time.s == 0)
 		{VectorAall.add(an);
 			VectorBall.add(bn);}
-	if(time.m == 3 && time.s == 0)
+	if(time.m == 32 && time.s == 0)
 		{VectorAall.add(an);
 		VectorBall.add(bn);}
-	if(time.m == 1 && time.s == 0)
+	if(time.m == 12 && time.s == 0)
 		{VectorAall.add(an);
 		VectorBall.add(bn);}
 	if(time.m == 0 && time.s == 0)
 		{VectorAall.add(an);
-		VectorBall.add(bn);}
+		VectorBall.add(bn);}*/
 	}
 	
 	if(e.getSource() == Pause)
@@ -472,6 +506,8 @@ public void actionPerformed(ActionEvent e)
 		
 		AAll.setText("0");
 		Ascore.setText("00");
+		an = 0;
+		aall = 0;
 		
 		Bcb1.removeAllItems();
 		Bcb2.removeAllItems();
@@ -487,6 +523,8 @@ public void actionPerformed(ActionEvent e)
 		
 		BAll.setText("0");
 		Bscore.setText("00");
+		bn = 0;
+		ball = 0;
 		
 		Data.setEnabled(true);
 		Pause.setEnabled(false);
