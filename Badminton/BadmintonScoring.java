@@ -665,8 +665,7 @@ public class BadmintonScoring extends JFrame implements ActionListener, MouseLis
 			{
 				try 
 				{
-					Runtime.getRuntime().exec("D:\\Users\\Administrator\\AppData\\Local\\Kingsoft\\"
-							+ "WPS Office\\9.1.0.4249\\office6\\wps.exe "
+					Runtime.getRuntime().exec( "cmd /c start "
 							+"Instruction_Of_Badminton/羽毛球计分器使用说明.doc");
 				} 
 				catch (IOException e1) 
