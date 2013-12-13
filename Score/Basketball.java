@@ -16,7 +16,7 @@ public class Basketball extends JFrame implements ActionListener
 	JComboBox Acb1,Acb2,Acb3,Acb4,Acb5,Bcb1,Bcb2,Bcb3,Bcb4,Bcb5;
 	JButton	 Abutton1,Abutton2,Abutton3,Abutton4,Abutton5,Bbutton1,
 				Bbutton2,Bbutton3,Bbutton4,Bbutton5,AButton_1,AButton_2,AButton_3,
-				BButton_1,BButton_2,BButton_3,Start,Pause,Data,Change,Sure,savedata;
+				BButton_1,BButton_2,BButton_3,Start,Pause,Continue,Data,Change,Sure,Reset,savedata;
 	ImageIcon startimg,pauseimg,overimg;
 	Dimension screenSize;
 	CountTime time;
@@ -26,7 +26,6 @@ public class Basketball extends JFrame implements ActionListener
 	public Basketball()
 	{
     screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-    
     /**
      * 标签栏的所有设置，
      * 包括添加A队，B队标签
@@ -86,11 +85,6 @@ public class Basketball extends JFrame implements ActionListener
 	Acb3 = new JComboBox();
 	Acb4 = new JComboBox();
 	Acb5 = new JComboBox();
-	/*Acb1.setMaximumRowCount(10);
-	Acb2.setMaximumRowCount(9);
-	Acb3.setMaximumRowCount(8);
-	Acb4.setMaximumRowCount(7);
-	Acb5.setMaximumRowCount(6);*/
 	 Abutton1 = new JButton(0+"次");
 	 Abutton2 = new JButton(0+"次");
 	 Abutton3 = new JButton(0+"次");
@@ -147,11 +141,6 @@ public class Basketball extends JFrame implements ActionListener
 	Bcb3 = new JComboBox();
 	Bcb4 = new JComboBox();
 	Bcb5 = new JComboBox();
-	/*Bcb1.setMaximumRowCount(10);
-	Bcb2.setMaximumRowCount(9);
-	Bcb3.setMaximumRowCount(8);
-	Bcb4.setMaximumRowCount(7);
-	Bcb5.setMaximumRowCount(6);*/
 	 Bbutton1 = new JButton(0+"次");
 	 Bbutton2 = new JButton(0+"次");
 	 Bbutton3 = new JButton(0+"次");
@@ -267,30 +256,39 @@ public class Basketball extends JFrame implements ActionListener
 	 * 比赛最开始先点击Data按钮
 	 * 添加至少五个队员信息
 	 *然后才可以点击比赛开始
-	 * */
+	 */
+	
 	Start = new JButton("Start");
     Pause = new JButton("Pause");
+    Continue = new JButton("Continue");
     Data = new JButton("Data");
     Change = new JButton("Change");
     Sure = new JButton("Sure");
+    Reset = new JButton("Reset");
     StatuesPanel = new JPanel();
     StatuesPanel.add(Start);
     StatuesPanel.add(Pause);
+    StatuesPanel.add(Continue);
     StatuesPanel.add(Data);
     StatuesPanel.add(Change);
     StatuesPanel.add(Sure);
+    StatuesPanel.add(Reset);
     StatuesPanel.setOpaque(false);
     Start.addActionListener(this);
     Pause.addActionListener(this);
+    Continue.addActionListener(this);
 	Data.addActionListener(this);
 	Change.addActionListener(this);
 	Sure.addActionListener(this);
-	Start.setEnabled(false);
+	Reset.addActionListener(this);
+	//Start.setEnabled(false);
 	Scorepanel.add(StatuesPanel);
 	Scorepanel.setOpaque(false);
 	
 	/*
-	 * 在可拆分窗体中左边添加队员犯规，右边添加记分牌
+	 * 在可拆分窗体中
+	 * 左边添加队员犯规
+	 * 右边添加记分牌
 	 */
 	
 	JSplitPane AaBpanel = new JSplitPane(
@@ -353,8 +351,7 @@ private void Data()
 		d.add("Center",aandb);
 		 At = new JTextField[10];
 		 Bt = new JTextField[10];
-	//	String[] As = new String[10];
-		//String[] Bs = new String[10];
+	
 		for(int i = 0;i<10;i++)
 		{
 			At[i] = new JTextField();
@@ -366,7 +363,6 @@ private void Data()
 		}
 		aandb.setLayout(new GridLayout(11,2));
 		savedata = new JButton("请按照号数_名字填写队员信息再保存");
-		//savedata.setEnabled(false);
 		savedata.setFont(new Font("宋体",Font.PLAIN,20));
 		savedata.addActionListener(this);
 		d.add("South",savedata);
@@ -396,12 +392,48 @@ public void actionPerformed(ActionEvent e)
 		BButton_1.setEnabled(true);
 		BButton_2.setEnabled(true);
 		BButton_3.setEnabled(true);
-		Start.setEnabled(false);
+		//Start.setEnabled(false);
 		time.Start();
+	}
+	if(e.getSource() == Pause)
+	{
+		time.Pause();
+	}
+	if(e.getSource() == Continue)
+	{
+		time.Continue();
 	}
 	if(e.getSource() == Data)
 	{
 		Data();
+	}
+	if(e.getSource() == Reset)
+	{
+		time.Reset();
+		Acb1.removeAllItems();
+		Acb2.removeAllItems();
+		Acb3.removeAllItems();
+		Acb4.removeAllItems();
+		Acb5.removeAllItems();
+		Abutton1.setText("0次");
+		Abutton2.setText("0次");
+		Abutton3.setText("0次");
+		Abutton4.setText("0次");
+		Abutton5.setText("0次");
+		AAll.setText("0");
+		Ascore.setText("00");
+		Bcb1.removeAllItems();
+		Bcb2.removeAllItems();
+		Bcb3.removeAllItems();
+		Bcb4.removeAllItems();
+		Bcb5.removeAllItems();
+		Bbutton1.setText("0次");
+		Bbutton2.setText("0次");
+		Bbutton3.setText("0次");
+		Bbutton4.setText("0次");
+		Bbutton5.setText("0次");
+		BAll.setText("0");
+		Bscore.setText("00");
 	}
 	if(e.getSource() == AButton_1)
 	{
@@ -415,7 +447,7 @@ public void actionPerformed(ActionEvent e)
 	{
 		an+=2;
 		if(an<10)
-		Ascore.setText("0"+an);
+			Ascore.setText("0"+an);
 		else
 			Ascore.setText(""+an);
 	}
