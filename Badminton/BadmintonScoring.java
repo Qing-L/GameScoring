@@ -58,6 +58,7 @@ public class BadmintonScoring extends JFrame implements ActionListener, MouseLis
 	JButton LeftReset = new JButton(new ImageIcon("image/撤销.jpg"));
 	JButton RightReset = new JButton(new ImageIcon("image/撤销.jpg"));
 	JButton New = new JButton(new ImageIcon("image/新局.jpg"));
+	JButton Help = new JButton(new ImageIcon("image/帮助.jpg"));
 	
 	//标签
 	JLabel Player1 = new JLabel(new ImageIcon("image/选手1.png"));
@@ -172,6 +173,8 @@ public class BadmintonScoring extends JFrame implements ActionListener, MouseLis
 		LeftReset.setBounds(80, 590, 110, 60);
 		RightReset.setBounds(350, 590, 110, 60);
 		New.setBounds(215, 550, 110, 60);
+		Help.setBounds(450, 120, 50, 30);
+		Help.setToolTipText("点击获取帮助");
 		
 		//比分设置
 		panel.setBounds(70, 330, 400, 150);	//设置动图位置
@@ -212,6 +215,7 @@ public class BadmintonScoring extends JFrame implements ActionListener, MouseLis
 		RightPane.add(LeftReset);
 		RightPane.add(RightReset);
 		RightPane.add(New);
+		RightPane.add(Help);
 		RightPane.add(panel);
 		RightPane.setOpaque(false);		
 		RightPane.add(ScoreRight);		
@@ -306,6 +310,7 @@ public class BadmintonScoring extends JFrame implements ActionListener, MouseLis
 		LeftReset.addActionListener(this);
 		RightReset.addActionListener(this);
 		New.addActionListener(this);
+		Help.addActionListener(this);
 		
 		//设置可见
 		LeftWin.setEnabled(false);
@@ -650,6 +655,25 @@ public class BadmintonScoring extends JFrame implements ActionListener, MouseLis
 			            ex.printStackTrace();  
 			        } 
 			    }	
+		  }
+		if(e.getSource()==Help)
+		{
+			int n = JOptionPane.showConfirmDialog(null,"该程序由梁青青同学编写\n"+
+		            "若需查看详细帮助，请点击“确定”","帮助",JOptionPane.YES_NO_OPTION);
+			
+			if(n==0)
+			{
+				try 
+				{
+					Runtime.getRuntime().exec("D:\\Users\\Administrator\\AppData\\Local\\Kingsoft\\"
+							+ "WPS Office\\9.1.0.4249\\office6\\wps.exe "
+							+"Instruction_Of_Badminton/羽毛球计分器使用说明.doc");
+				} 
+				catch (IOException e1) 
+				{
+					e1.printStackTrace();
+				}
+			}
 		}
 	}
 	
@@ -717,86 +741,82 @@ public class BadmintonScoring extends JFrame implements ActionListener, MouseLis
 	public void mouseClicked(MouseEvent e) 
 	{ 		
 		int RowIndex,ColumnIndex;
+		final JFrame Frame0 = new JFrame();
+		
 		 if (e.getClickCount() == 2) 
 		 {
 		      RowIndex = Table.rowAtPoint(e.getPoint());
 		      ColumnIndex = Table.columnAtPoint(e.getPoint());
-		      
-			  
-		      if(ColumnIndex == 3)
-		      {
-		    	  final JFrame Frame0 = new JFrame();	  		 
-	   
-	        	  //查看不同局数的比分
-	        	  if(RowIndex == 0)
-	        	  { 
-	        		  Model0.setColumnCount(Jufen1_1.size()+1);
-	        		  for(int i=1 ; i<Jufen1_1.size();i++)
-	        		  {
-	        			  Table0.getColumnModel().getColumn(i+1).setHeaderValue(i);
-	      				  Model0.setValueAt(Jufen1_1.get(i), 0, (i+1));
-		        		  Model0.setValueAt(Jufen1_2.get(i), 1, (i+1));	        			   			  
-      			      }	       		  
-	        		  setFixColumnWidth(Table0);//设置固定列宽
-			          Table0.getColumnModel().getColumn(0).setPreferredWidth(150);	
-		  	          JScrollPane ScrollPane0 = new JScrollPane(Table0,
-		  	        		 ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER,
-			  	        	 ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-		  	          Frame0.add(ScrollPane0);
-		  	          Frame0.setTitle("第一局比分");
-	        	  }
-	        	
-	        	  if(RowIndex == 1)
-	        	  {
-	        		  Model1.setColumnCount(Jufen2_1.size()+1);
-	        		  for(int i=1 ; i<Jufen2_1.size();i++)
-	        		  {  
-	        			  Table1.getColumnModel().getColumn(i+1).setHeaderValue(i);
-	        		      Model1.setValueAt(Jufen2_1.get(i), 0, (i+1));
-	        		      Model1.setValueAt(Jufen2_2.get(i), 1, (i+1));	  
-	        		  }	
-	        		  setFixColumnWidth(Table1);//设置固定列宽
-			          Table1.getColumnModel().getColumn(0).setPreferredWidth(150);	
-		  	          JScrollPane ScrollPane1 = new JScrollPane(Table1,
-		  	        		 ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER,
-			  	             ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-	        		  Frame0.add(ScrollPane1);
-	        		  Frame0.setTitle("第二局比分");
-	        	  }
-	        	   	        	  
-	        	  if(RowIndex == 2)
-	        	  {	 
-	        		  Model2.setColumnCount(Jufen3_1.size()+1);
-	        		  for(int i=1 ; i<Jufen3_1.size();i++)
-	        		  {
-	        			  Table2.getColumnModel().getColumn(i+1).setHeaderValue(i);
-	        		      Model2.setValueAt(Jufen3_1.get(i), 0, (i+1));
-	        		      Model2.setValueAt(Jufen3_2.get(i), 1, (i+1));	        			 
-	        		  }
-	        		  setFixColumnWidth(Table2);//设置固定列宽
-			          Table2.getColumnModel().getColumn(0).setPreferredWidth(150);	
-		  	          JScrollPane ScrollPane2 = new JScrollPane(Table2,
-		  	        		 ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER,
-			  	             ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-		  	          Frame0.add(ScrollPane2);
-		  	          Frame0.setTitle("第三局比分");
-	        	  }
-	  	              		  
-	    		  Frame0.setBounds(300, 300, 500, 170);
-	    		  Frame0.setVisible(true);
-	    		  Frame0.setResizable(false);
-	    		  Frame0.addWindowListener(new WindowAdapter()
-	    		  {
-	    			  public void windowClosing(WindowEvent e) 
-	    			  {
-	    				  Frame0.dispose();
-	    				  Status = false;
-	    				  OpenListener();
-	    			  }
-	    		  });
-	    		  Status = true;
-	    		  OpenListener();
-		      }
+
+		      //查看不同局数的比分
+        	  if(ColumnIndex == 3&&RowIndex == 0)
+        	  { 
+        		  Model0.setColumnCount(Jufen1_1.size()+1);
+        		  for(int i=1 ; i<Jufen1_1.size();i++)
+        		  {
+        			  Table0.getColumnModel().getColumn(i+1).setHeaderValue(i);
+      				  Model0.setValueAt(Jufen1_1.get(i), 0, (i+1));
+	        		  Model0.setValueAt(Jufen1_2.get(i), 1, (i+1));	        			   			  
+  			      }	       		  
+        		  setFixColumnWidth(Table0);//设置固定列宽
+		          Table0.getColumnModel().getColumn(0).setPreferredWidth(150);	
+	  	          JScrollPane ScrollPane0 = new JScrollPane(Table0,
+	  	        		 ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER,
+		  	        	 ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+	  	          Frame0.add(ScrollPane0);
+	  	          Frame0.setTitle("第一局比分");
+        	  }
+        	
+        	  if(ColumnIndex == 3&&RowIndex == 1)
+        	  {
+        		  Model1.setColumnCount(Jufen2_1.size()+1);
+        		  for(int i=1 ; i<Jufen2_1.size();i++)
+        		  {  
+        			  Table1.getColumnModel().getColumn(i+1).setHeaderValue(i);
+        		      Model1.setValueAt(Jufen2_1.get(i), 0, (i+1));
+        		      Model1.setValueAt(Jufen2_2.get(i), 1, (i+1));	  
+        		  }	
+        		  setFixColumnWidth(Table1);//设置固定列宽
+		          Table1.getColumnModel().getColumn(0).setPreferredWidth(150);	
+	  	          JScrollPane ScrollPane1 = new JScrollPane(Table1,
+	  	        		 ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER,
+		  	             ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+        		  Frame0.add(ScrollPane1);
+        		  Frame0.setTitle("第二局比分");
+        	  }
+        	   	        	  
+        	  if(ColumnIndex == 3&&RowIndex == 2)
+        	  {	 
+        		  Model2.setColumnCount(Jufen3_1.size()+1);
+        		  for(int i=1 ; i<Jufen3_1.size();i++)
+        		  {
+        			  Table2.getColumnModel().getColumn(i+1).setHeaderValue(i);
+        		      Model2.setValueAt(Jufen3_1.get(i), 0, (i+1));
+        		      Model2.setValueAt(Jufen3_2.get(i), 1, (i+1));	        			 
+        		  }
+        		  setFixColumnWidth(Table2);//设置固定列宽
+		          Table2.getColumnModel().getColumn(0).setPreferredWidth(150);	
+	  	          JScrollPane ScrollPane2 = new JScrollPane(Table2,
+	  	        		 ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER,
+		  	             ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+	  	          Frame0.add(ScrollPane2);
+	  	          Frame0.setTitle("第三局比分");
+        	  }
+  	              		  
+    		  Frame0.setBounds(300, 300, 500, 170);
+    		  Frame0.setVisible(true);
+    		  Frame0.setResizable(false);
+    		  Frame0.addWindowListener(new WindowAdapter()
+    		  {
+    			  public void windowClosing(WindowEvent e) 
+    			  {
+    				  Frame0.dispose();
+    				  Status = false;
+    				  OpenListener();
+    			  }
+    		  });
+    		  Status = true;
+    		  OpenListener();
 		 }
 	}
 	public void OpenListener()
