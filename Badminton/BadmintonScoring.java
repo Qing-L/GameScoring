@@ -283,7 +283,7 @@ public class BadmintonScoring extends JFrame implements ActionListener, MouseLis
 		BadFrame.setSize(750, 700);
 		BadFrame.setLayout(new BorderLayout());
 		BadFrame.add(SplitPane, BorderLayout.CENTER);
-		BadFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		BadFrame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		BadFrame.setLocationRelativeTo(null);
 		BadFrame.setVisible(true);
 		BadFrame.setResizable(false);
@@ -324,7 +324,10 @@ public class BadmintonScoring extends JFrame implements ActionListener, MouseLis
 
 	public void actionPerformed(ActionEvent e) 
 	{
-		if(e.getSource() == Return) {}	
+		if(e.getSource() == Return) 
+		{
+			BadFrame.dispose();
+		}	
 		if(e.getSource() == Addplayer) 
 		{		
 			final JFrame Addframe = new JFrame("添加运动员");
