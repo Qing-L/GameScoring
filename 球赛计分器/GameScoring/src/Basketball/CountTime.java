@@ -1,4 +1,4 @@
-package Basketball;
+package Score;
 
 import java.util.Date;
 import java.util.Timer;
@@ -14,7 +14,7 @@ public class CountTime extends JPanel //implements ActionListener
 	JLabel l = new JLabel();
 	JPanel LPanel;
 	long show,h,m,s,pausetime,continuetime,start;
-	int min = 5;
+	int min = 7;
 	Timer timer;
 	CountTime()
 	{
@@ -46,10 +46,9 @@ public class CountTime extends JPanel //implements ActionListener
 	}
 	
 	
-	public void Cancel()
-	{	timer.cancel();	
-		timer.purge();
-	}
+	public void Cancle()
+	{	timer.cancel();
+		timer.purge();	}
 	
 	
 	public void Pause()
@@ -97,18 +96,20 @@ public class CountTime extends JPanel //implements ActionListener
 			l.setText(m+":"+"0"+s);
 		else
 			l.setText(m+":"+s);
+		if(m == 6 && s == 0)
+			JOptionPane.showMessageDialog(null,"第一节结束，请休息1分钟");
+		if(m == 5 && s == 0)
+			JOptionPane.showMessageDialog(null,"休息时间结束，请继续比赛");
 		if(m == 4 && s == 0)
-			JOptionPane.showMessageDialog(null,"第一节结束，请休息两分钟");
-		if(m == 42 && s == 0)
-			JOptionPane.showMessageDialog(null,"休息时间结束，请继续比赛");
-		if(m == 32 && s == 0)
-			JOptionPane.showMessageDialog(null,"第二节结束，请休息十分钟");
-		if(m == 22 && s == 0)
+			JOptionPane.showMessageDialog(null,"第二节结束，请休息1分钟");
+		if(m == 3 && s == 0)
 			JOptionPane.showMessageDialog(null,"中场休息时间结束，请交换场地并继续比赛");
-		if( m == 12 && s == 0)
-			JOptionPane.showMessageDialog(null,"第三节结束，请休息两分钟");
-		if( m == 10 && s == 0)
+		if( m == 2 && s == 0)
+			JOptionPane.showMessageDialog(null,"第三节结束，请休息1分钟");
+		if( m == 1 && s == 0)
 			JOptionPane.showMessageDialog(null,"休息时间结束，请继续比赛");
+		if( m == 0 && s == 0)
+			JOptionPane.showMessageDialog(null,"比赛结束");
 	}
 	
 }

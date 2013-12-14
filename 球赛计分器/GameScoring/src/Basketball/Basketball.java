@@ -1,4 +1,4 @@
-package Basketball;
+package Score;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -13,21 +13,21 @@ public class Basketball extends JFrame implements ActionListener
 	JPanel Labelpanel,Foulpanel,Scorepanel,Apanel,Bpanel,StatuesPanel,
 				Ascorepanel,Bscorepanel,Abuttonpanel,Bbuttonpanel;
 	JLabel ALabel,BLabel,Bscore,Ascore,AAll,BAll;
-	JTextField A1,A2,A3,A4,A5,B1,B2,B3,B4,B5;
 	JTextField[] At,Bt;
-	JComboBox Acb1,Acb2,Acb3,Acb4,Acb5,Bcb1,Bcb2,Bcb3,Bcb4,Bcb5;
-	JButton	 Return,Help,Abutton1,Abutton2,Abutton3,Abutton4,Abutton5,Bbutton1,
-				Bbutton2,Bbutton3,Bbutton4,Bbutton5,AButton_1,AButton_2,AButton_3,
-				BButton_1,BButton_2,BButton_3,Start,Pause,Continue,Data,Change,Sure,See,Reset,savedata;
+	JComboBox [] Bcb,Acb;
+	JButton	 Return,Help,Start,Pause,Continue,Data,Change,Sure,See,Reset,savedata;
+	JButton[] Abutton,Bbutton,AButton_,BButton_;
 	ImageIcon startimg,pauseimg,overimg;
 	Dimension screenSize;
 	CountTime time;
 	Vector VectorA,VectorB,VectorAall,VectorBall;
 	//DefaultTableModel Mytable;
 	//JTable table;
-	int an,bn,a1,a2,a3,a4,a5,aall,b1,b2,b3,b4,b5,ball;
+	int an,bn,aall,ball;
+	int [] a = new int[5];
+	int [] b = new int[5];
+
 	
-	@SuppressWarnings("rawtypes")
 	public Basketball()
 	{
     screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -110,40 +110,19 @@ public class Basketball extends JFrame implements ActionListener
 	Apanel.add(ANum);
 	Apanel.add(AFoul);
 	
-	Acb1 = new JComboBox();
-	Acb2 = new JComboBox();
-	Acb3 = new JComboBox();
-	Acb4 = new JComboBox();
-	Acb5 = new JComboBox();
+	Abutton = new JButton[5];
+	Acb = new JComboBox[5];
 	
-	Abutton1 = new JButton(0+"次");
-	Abutton2 = new JButton(0+"次");
-	Abutton3 = new JButton(0+"次");
-	Abutton4 = new JButton(0+"次");
-	Abutton5 = new JButton(0+"次");
-	 
-	Abutton1.addActionListener(this);
-	Abutton2.addActionListener(this);
-	Abutton3.addActionListener(this);
-	Abutton4.addActionListener(this);
-	Abutton5.addActionListener(this);
-	 
-	Abutton1.setEnabled(false);
-	Abutton2.setEnabled(false);
-	Abutton3.setEnabled(false);
-	Abutton4.setEnabled(false);
-	Abutton5.setEnabled(false);
-	 
-	Apanel.add(Acb1);
-	Apanel.add(Abutton1);
-	Apanel.add(Acb2);
-	Apanel.add(Abutton2);
-	Apanel.add(Acb3);
-	Apanel.add(Abutton3);
-	Apanel.add(Acb4);
-	Apanel.add(Abutton4);
-	Apanel.add(Acb5);
-	Apanel.add(Abutton5);
+	for(int i=0;i<5;i++)
+	{
+		Acb[i] = new JComboBox();
+		Abutton[i] = new JButton();
+		Abutton[i].setText("0次");
+		Abutton[i].addActionListener(this);
+		Abutton[i].setEnabled(false);
+		Apanel.add(Acb[i]);
+		Apanel.add(Abutton[i]);
+	}
 	
 	JTextField AFoulAll = new JTextField("犯规总数");
 	AFoulAll.setFont(new Font("宋体",Font.BOLD,24));
@@ -177,40 +156,20 @@ public class Basketball extends JFrame implements ActionListener
 	Bpanel.add(BNum);
 	Bpanel.add(BFoul);
 	
-	Bcb1 = new JComboBox();
-	Bcb2 = new JComboBox();
-	Bcb3 = new JComboBox();
-	Bcb4 = new JComboBox();
-	Bcb5 = new JComboBox();
+	Bbutton = new JButton[5];
+	Bcb = new JComboBox[5];
 	
-	Bbutton1 = new JButton(0+"次");
-	Bbutton2 = new JButton(0+"次");
-	Bbutton3 = new JButton(0+"次");
-	Bbutton4 = new JButton(0+"次");
-	Bbutton5 = new JButton(0+"次");
-	 
-	Bbutton1.addActionListener(this);
-	Bbutton2.addActionListener(this);
-	Bbutton3.addActionListener(this);
-	Bbutton4.addActionListener(this);
-	Bbutton5.addActionListener(this);
-	 
-	Bbutton1.setEnabled(false);
-	Bbutton2.setEnabled(false);
-	Bbutton3.setEnabled(false);
-	Bbutton4.setEnabled(false);
-	Bbutton5.setEnabled(false);
-	 
-	Bpanel.add(Bcb1);
-	Bpanel.add(Bbutton1);
-	Bpanel.add(Bcb2);
-	Bpanel.add(Bbutton2);
-	Bpanel.add(Bcb3);
-	Bpanel.add(Bbutton3);
-	Bpanel.add(Bcb4);
-	Bpanel.add(Bbutton4);
-	Bpanel.add(Bcb5);
-	Bpanel.add(Bbutton5);
+	for(int i = 0;i<5;i++)
+		{
+			Bcb[i] = new JComboBox();
+			
+			Bbutton[i] = new JButton();
+			Bbutton[i].setText("0次");
+			Bbutton[i].addActionListener(this);
+			Bbutton[i].setEnabled(false);
+			Bpanel.add(Bcb[i]);
+			Bpanel.add(Bbutton[i]);
+		}
 	
 	JTextField BFoulAll = new JTextField("犯规总数");
 	BFoulAll.setFont(new Font("宋体",Font.BOLD,24));
@@ -242,21 +201,16 @@ public class Basketball extends JFrame implements ActionListener
 	
 	Abuttonpanel = new JPanel();
 	
-	AButton_1 = new JButton("A + 1");
-	AButton_2 = new JButton("A + 2");
-	AButton_3 = new JButton("A + 3");
+	AButton_ = new JButton[3];
 	
-	AButton_1.addActionListener(this);
-	AButton_2.addActionListener(this);
-	AButton_3.addActionListener(this);
-	
-	AButton_1.setEnabled(false);
-	AButton_2.setEnabled(false);
-	AButton_3.setEnabled(false);
-	
-	Abuttonpanel.add(AButton_1);
-	Abuttonpanel.add(AButton_2);
-	Abuttonpanel.add(AButton_3);
+	for(int i = 0;i<3;i++)
+	{
+		AButton_[i]  = new JButton();
+		AButton_[i].setText("A + "+(i+1));
+		AButton_[i].addActionListener(this);
+		AButton_[i].setEnabled(false);
+		Abuttonpanel.add(AButton_[i]);
+	}
 	
 	Abuttonpanel.setOpaque(false);
 	Ascorepanel.setLayout(new BorderLayout());
@@ -286,21 +240,16 @@ public class Basketball extends JFrame implements ActionListener
 	Bscore.setHorizontalAlignment(0);
 	
 	Bbuttonpanel = new JPanel();
-	BButton_1 = new JButton("B + 1");
-	BButton_2 = new JButton("B + 2");
-	BButton_3 = new JButton("B + 3");
+	BButton_ = new JButton[3];
 	
-	BButton_1.addActionListener(this);
-	BButton_2.addActionListener(this);
-	BButton_3.addActionListener(this);
-	
-	BButton_1.setEnabled(false);
-	BButton_2.setEnabled(false);
-	BButton_3.setEnabled(false);
-	
-	Bbuttonpanel.add(BButton_1);
-	Bbuttonpanel.add(BButton_2);
-	Bbuttonpanel.add(BButton_3);
+	for(int i = 0;i<3;i++)
+	{
+		BButton_[i]  = new JButton();
+		BButton_[i].setText("B + "+(i+1));
+		BButton_[i].addActionListener(this);
+		BButton_[i].setEnabled(false);
+		Bbuttonpanel.add(BButton_[i]);
+	}
 	
 	Bbuttonpanel.setOpaque(false);
 	
@@ -349,7 +298,7 @@ public class Basketball extends JFrame implements ActionListener
 	//See.addActionListener(this);
 	Reset.addActionListener(this);
 	
-	Start.setEnabled(false); 
+	//Start.setEnabled(false); 
 	Pause.setEnabled(false);
 	Continue.setEnabled(false);
 	
@@ -388,7 +337,8 @@ public class Basketball extends JFrame implements ActionListener
     setIconImage(Toolkit.getDefaultToolkit().getImage(
     		"Source//ilovethisgame_002.png"));
     setTitle("篮球计分器");
-      
+    
+   setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
    addWindowListener(new WindowAdapter()
    {
         public void windowClosing(WindowEvent e) 
@@ -396,10 +346,10 @@ public class Basketball extends JFrame implements ActionListener
             int exit=JOptionPane.showConfirmDialog(Basketball.this,
             		"确定退出吗？", "退出", JOptionPane.OK_CANCEL_OPTION);
             if(exit==JOptionPane.OK_OPTION)
-            {
-            	setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        		time.Cancel();
-        	}
+            	{
+        		dispose();
+        		time.Cancle();
+        		}
         }
     });
 	setVisible(true);
@@ -411,9 +361,7 @@ public class Basketball extends JFrame implements ActionListener
 public void actionPerformed(ActionEvent e)
 {
 	if(e.getSource() == Return)
-	{
-		this.dispose();
-	}
+		{	this.dispose();	}
 	if(e.getSource() == Help)
 	{
 		Runtime run = Runtime.getRuntime();
@@ -430,43 +378,36 @@ public void actionPerformed(ActionEvent e)
 	}
 	if(e.getSource() == Start)
 	{
-		Abutton1.setEnabled(true);
-		Abutton2.setEnabled(true);
-		Abutton3.setEnabled(true);
-		Abutton4.setEnabled(true);
-		Abutton5.setEnabled(true);
-		
-		Bbutton1.setEnabled(true);
-		Bbutton2.setEnabled(true);
-		Bbutton3.setEnabled(true);
-		Bbutton4.setEnabled(true);
-		Bbutton5.setEnabled(true);
-		
-		AButton_1.setEnabled(true);
-		AButton_2.setEnabled(true);
-		AButton_3.setEnabled(true);
-		
-		BButton_1.setEnabled(true);
-		BButton_2.setEnabled(true);
-		BButton_3.setEnabled(true);
+		for(int i = 0 ;i<5;i++)
+			{
+				Abutton[i].setEnabled(true);
+				Bbutton[i].setEnabled(true);
+			}
+			
+		for(int i = 0;i<3;i++)
+			{
+				AButton_[i].setEnabled(true);
+				BButton_[i].setEnabled(true);
+			}
 		
 		Start.setEnabled(false);
 		Pause.setEnabled(true);
 		
 		time.Start();
 		
-		/*if(time.m == 44&& time.s == 0)
-		{VectorAall.add(an);
-			VectorBall.add(bn);}
-	if(time.m == 32 && time.s == 0)
-		{VectorAall.add(an);
-		VectorBall.add(bn);}
-	if(time.m == 12 && time.s == 0)
-		{VectorAall.add(an);
-		VectorBall.add(bn);}
-	if(time.m == 0 && time.s == 0)
-		{VectorAall.add(an);
-		VectorBall.add(bn);}*/
+	/*	if(time.m == 6&& time.s == 0)
+			{VectorAall.add(an);
+			VectorBall.add(bn);System.out.println(VectorAall);}
+		if(time.m == 4 && time.s == 0)
+			{VectorAall.add(an);
+			VectorBall.add(bn);System.out.println(VectorAall);}
+		if(time.m == 2 && time.s == 0)
+			{VectorAall.add(an);
+			VectorBall.add(bn);System.out.println(VectorAall);}
+		if(time.m == 0 && time.s == 0)
+			{VectorAall.add(an);
+			VectorBall.add(bn);System.out.println(VectorAall);}
+	*/
 	}
 	
 	if(e.getSource() == Pause)
@@ -491,34 +432,19 @@ public void actionPerformed(ActionEvent e)
 	{
 		time.Reset();
 		
-		Acb1.removeAllItems();
-		Acb2.removeAllItems();
-		Acb3.removeAllItems();
-		Acb4.removeAllItems();
-		Acb5.removeAllItems();
-		
-		Abutton1.setText("0次");
-		Abutton2.setText("0次");
-		Abutton3.setText("0次");
-		Abutton4.setText("0次");
-		Abutton5.setText("0次");
+		for(int i = 0;i<5;i++)
+		{
+			Abutton[i].setText("0次");
+			Acb[i].removeAllItems();
+			
+			Bbutton[i].setText("0次");
+			Bcb[i].removeAllItems();
+		}
 		
 		AAll.setText("0");
 		Ascore.setText("00");
 		an = 0;
 		aall = 0;
-		
-		Bcb1.removeAllItems();
-		Bcb2.removeAllItems();
-		Bcb3.removeAllItems();
-		Bcb4.removeAllItems();
-		Bcb5.removeAllItems();
-		
-		Bbutton1.setText("0次");
-		Bbutton2.setText("0次");
-		Bbutton3.setText("0次");
-		Bbutton4.setText("0次");
-		Bbutton5.setText("0次");
 		
 		BAll.setText("0");
 		Bscore.setText("00");
@@ -543,25 +469,15 @@ public void actionPerformed(ActionEvent e)
 					"请至少填写两队的前五位队员","提示",JOptionPane.WARNING_MESSAGE);
 			else
 				{	
-					for(int j =0;j<10;j++)
-						{
-							if(At[j].getText().length()!=0)
-								{
-									Acb1.addItem(At[j].getText());
-									Acb2.addItem(At[j].getText());
-									Acb3.addItem(At[j].getText());
-									Acb4.addItem(At[j].getText());
-									Acb5.addItem(At[j].getText());
-								}
-							if(Bt[j].getText().length()!=0)
-								{
-								Bcb1.addItem(Bt[j].getText());
-								Bcb2.addItem(Bt[j].getText());
-								Bcb3.addItem(Bt[j].getText());
-								Bcb4.addItem(Bt[j].getText());
-								Bcb5.addItem(Bt[j].getText());
-								}
-						}	
+					for(int i =0;i<5;i++)
+						for(int j =0;j<10;j++)
+							{
+								if(At[j].getText().length()!=0)
+										Acb[i].addItem(At[j].getText());
+								
+								if(Bt[j].getText().length()!=0)
+										Bcb[i].addItem(Bt[j].getText());
+							}	
 				}
 			Data.setEnabled(false);
 			Start.setEnabled(true);
@@ -570,312 +486,82 @@ public void actionPerformed(ActionEvent e)
 	
 	if(e.getSource() == Change )
 		{
-			Acb1.setEnabled(true);
-			Acb2.setEnabled(true);
-			Acb3.setEnabled(true);
-			Acb4.setEnabled(true);
-			Acb5.setEnabled(true);
-			
-			Bcb1.setEnabled(true);
-			Bcb2.setEnabled(true);
-			Bcb3.setEnabled(true);
-			Bcb4.setEnabled(true);
-			Bcb5.setEnabled(true);
+			for(int i = 0;i<5;i++)
+				{	Acb[i].setEnabled(false);	
+					Bcb[i].setEnabled(true);		}
 		}
 	
 	if(e.getSource() == Sure )
 		{
-			Acb1.setEnabled(false);
-			Acb2.setEnabled(false);
-			Acb3.setEnabled(false);
-			Acb4.setEnabled(false);
-			Acb5.setEnabled(false);
-			
-			Bcb1.setEnabled(false);
-			Bcb2.setEnabled(false);
-			Bcb3.setEnabled(false);
-			Bcb4.setEnabled(false);
-			Bcb5.setEnabled(false);
-	}
-	
-	if(e.getSource() == AButton_1)
-	{
-		an+=1;
-		if(an<10)
-			Ascore.setText("0"+an);
-		else
-			Ascore.setText(""+an);
-		VectorA.add(Ascore);
-	}
-
-if(e.getSource() == AButton_2)
-	{
-		an+=2;
-		if(an<10)
-			Ascore.setText("0"+an);
-		else
-			Ascore.setText(""+an);
-		VectorA.add(Ascore);
-	}
-
-if(e.getSource() == AButton_3)
-	{
-		an+=3;
-		if(an<10)
-			Ascore.setText("0"+an);
-		else
-			Ascore.setText(""+an);
-		VectorA.add(Ascore);
-	}
-
-if(e.getSource() == BButton_1)
-	{
-		bn+=1;
-		if(bn<10)
-			Bscore.setText("0"+bn);
-		else
-			Bscore.setText(""+bn);
-		VectorB.add(Bscore);
+			for(int i = 0;i<5;i++)
+				{	Acb[i].setEnabled(false);
+					Bcb[i].setEnabled(false);	}
 		}
-
-if(e.getSource() == BButton_2)
+	
+	for(int i = 0;i<3;i++)
 	{
-		bn+=2;
-		if(bn<10)
-			Bscore.setText("0"+bn);
-		else
-			Bscore.setText(""+bn);
-		VectorB.add(Bscore);
-	}
-
-if(e.getSource() == BButton_3)
-	{
-		bn+=3;
-		if(bn<10)
-			Bscore.setText("0"+bn);
-		else
-			Bscore.setText(""+bn);
-		VectorB.add(Bscore);
-	}	
-
-if(e.getSource() == Abutton1)
-	{	
-		++a1;
-		++aall;
-		if(a1<5)
-			Abutton1.setText(a1+"次");
-		else
+		if(e.getSource() == AButton_[i])
 			{
-				JOptionPane.showMessageDialog(null,
-						"该选手已五犯离场，请更换队员","提示",JOptionPane.ERROR_MESSAGE);
-				Abutton1.setText(0+"次");
-				a1=0;
-				
-				Acb2.removeItem(Acb1.getSelectedItem());
-				Acb3.removeItem(Acb1.getSelectedItem());
-				Acb4.removeItem(Acb1.getSelectedItem());
-				Acb5.removeItem(Acb1.getSelectedItem());
-				Acb1.removeItem(Acb1.getSelectedItem());
+				an+=(i+1);
+				if(an<10)
+					Ascore.setText("0"+an);
+				else
+					Ascore.setText(""+an);
+				//VectorA.add(an);
 			}
-		AAll.setText(aall+"次");
-	}
-
-if(e.getSource() == Abutton2)
-	{
-		++a2;
-		++aall;
-		if(a2<5)
-			Abutton2.setText(a2+"次");
-		else
-			{
-				JOptionPane.showMessageDialog(null,
-					"该选手已五犯离场，请更换队员","提示",JOptionPane.ERROR_MESSAGE);
-				Abutton2.setText(0+"次");
-				a2=0;
-				
-				Acb1.removeItem(Acb1.getSelectedItem());
-				Acb3.removeItem(Acb1.getSelectedItem());
-				Acb4.removeItem(Acb1.getSelectedItem());
-				Acb5.removeItem(Acb1.getSelectedItem());
-				Acb2.removeItem(Acb2.getSelectedItem());
-			}	
-		AAll.setText(aall+"次");
-	}
-
-if(e.getSource() == Abutton3)
-	{
-		++a3;
-		++aall;
-		if(a3<5)
-			Abutton3.setText(a3+"次");
-		else
-			{
-				JOptionPane.showMessageDialog(null,
-						"该选手已五犯离场，请更换队员","提示",JOptionPane.ERROR_MESSAGE);
-				Abutton3.setText(0+"次");
-				a3=0;
-			
-				Acb1.removeItem(Acb1.getSelectedItem());
-				Acb2.removeItem(Acb2.getSelectedItem());
-				Acb4.removeItem(Acb1.getSelectedItem());
-				Acb5.removeItem(Acb1.getSelectedItem());
-				Acb3.removeItem(Acb3.getSelectedItem());
-			}
-		AAll.setText(aall+"次");
-	}
-
-if(e.getSource() == Abutton4)
-	{
-		++a4;
-		++aall;
-		if(a4<5)
-			Abutton4.setText(a4+"次");
-		else
-			{
-				JOptionPane.showMessageDialog(null,
-						"该选手已五犯离场，请更换队员","提示",JOptionPane.ERROR_MESSAGE);
-				Abutton4.setText(0+"次");
-				a4=0;
-				
-				Acb1.removeItem(Acb1.getSelectedItem());
-				Acb2.removeItem(Acb2.getSelectedItem());
-				Acb3.removeItem(Acb3.getSelectedItem());
-				Acb5.removeItem(Acb1.getSelectedItem());
-				Acb4.removeItem(Acb4.getSelectedItem());
-			}
-		AAll.setText(aall+"次");
-}
-
-if(e.getSource() == Abutton5)
-	{
-		++a5;
-		++aall;
-		if(a5<5)
-			Abutton5.setText(a5+"次");
-		else
-			{
-				JOptionPane.showMessageDialog(null,
-						"该选手已五犯离场，请更换队员","提示",JOptionPane.ERROR_MESSAGE);
-				Abutton5.setText(0+"次");
-				a5=0;
-			
-				Acb1.removeItem(Acb1.getSelectedItem());
-				Acb2.removeItem(Acb1.getSelectedItem());
-				Acb3.removeItem(Acb1.getSelectedItem());
-				Acb4.removeItem(Acb1.getSelectedItem());
-				Acb5.removeItem(Acb5.getSelectedItem());
-			}
-		AAll.setText(aall+"次");
-	}
-
-	if(e.getSource() == Bbutton1)
+		if(e.getSource() == BButton_[i])
 		{
-			++b1;
+			bn+=(i+1);
+			if(bn<10)
+				Bscore.setText("0"+bn);
+			else
+				Bscore.setText(""+bn);
+			//VectorB.add(bn);
+		}
+	}
+
+	for(int i = 0;i<5;i++)
+	{
+		if(e.getSource() == Abutton[i])
+			{
+				++a[i];
+				++aall;
+				if(a[i]<5)
+					Abutton[i].setText(a[i]+"次");
+				else
+					{
+						JOptionPane.showMessageDialog(null,
+							"该选手已五犯离场，请更换队员","提示",JOptionPane.ERROR_MESSAGE);
+						Abutton[i].setText(0+"次");
+						a[i]=0;
+						for(int j = 0;j<5;j++)
+							if(j!=i)
+								Acb[j].removeItem(Acb[i].getSelectedItem());
+						Acb[i].removeItem(Acb[i].getSelectedItem());
+					}
+				AAll.setText(aall+"次");
+			}
+		if(e.getSource() == Bbutton[i])
+		{
+			++b[i];
 			++ball;
-			if(b1<5)
-				Bbutton1.setText(b1+"次");
+			if(b[i]<5)
+				Bbutton[i].setText(b[i]+"次");
 			else
 				{
 					JOptionPane.showMessageDialog(null,
 							"该选手已五犯离场，请更换队员","提示",JOptionPane.ERROR_MESSAGE);
-					Bbutton1.setText(0+"次");
-					b1=0;
-					
-					Bcb2.removeItem(Bcb1.getSelectedItem());
-					Bcb3.removeItem(Bcb1.getSelectedItem());
-					Bcb4.removeItem(Bcb1.getSelectedItem());
-					Bcb5.removeItem(Bcb1.getSelectedItem());
-					Bcb1.removeItem(Bcb1.getSelectedItem());
+					Bbutton[i].setText(0+"次");
+					b[i]=0;
+					for(int j = 0;j<5;j++)
+						if(j!=i)
+							Bcb[j].removeItem(Bcb[i].getSelectedItem());
+					Bcb[i].removeItem(Bcb[i].getSelectedItem());
 				}
 			BAll.setText(ball+"次");
-		}
-	
-	if(e.getSource() == Bbutton2)
-		{
-			++b2;
-			++ball;
-			if(b2<5)
-				Bbutton2.setText(b2+"次");
-			else
-				{
-					JOptionPane.showMessageDialog(null,
-							"该选手已五犯离场，请更换队员","提示",JOptionPane.ERROR_MESSAGE);
-					Bbutton2.setText(0+"次");
-					b2=0;
-					
-					Bcb1.removeItem(Bcb2.getSelectedItem());
-					Bcb3.removeItem(Bcb2.getSelectedItem());
-					Bcb4.removeItem(Bcb2.getSelectedItem());
-					Bcb5.removeItem(Bcb2.getSelectedItem());
-					Bcb2.removeItem(Bcb2.getSelectedItem());
-				}
-			BAll.setText(ball+"次");
-		}
-if(e.getSource() == Bbutton3)
-	{
-		++b3;
-		++ball;
-		if(b3<5)
-			Bbutton3.setText(b3+"次");
-		else
-		{
-			JOptionPane.showMessageDialog(null,
-				"该选手已五犯离场，请更换队员","提示",JOptionPane.ERROR_MESSAGE);
-			Bbutton3.setText(0+"次");
-			b3=0;
-			
-			Bcb1.removeItem(Bcb3.getSelectedItem());
-			Bcb2.removeItem(Bcb3.getSelectedItem());
-			Bcb4.removeItem(Bcb3.getSelectedItem());
-			Bcb5.removeItem(Bcb3.getSelectedItem());
-			Bcb3.removeItem(Bcb3.getSelectedItem());
-		}
-		BAll.setText(ball+"次");
-	}
-if(e.getSource() == Bbutton4)
-	{
-		++b4;
-		++ball;
-		if(b4<5)
-			Bbutton4.setText(b4+"次");
-		else
-			{
-				JOptionPane.showMessageDialog(null,
-						"该选手已五犯离场，请更换队员","提示",JOptionPane.ERROR_MESSAGE);
-				Bbutton4.setText(0+"次");
-				b4=0;
-				
-				Bcb1.removeItem(Bcb4.getSelectedItem());
-				Bcb2.removeItem(Bcb4.getSelectedItem());
-				Bcb3.removeItem(Bcb4.getSelectedItem());
-				Bcb5.removeItem(Bcb4.getSelectedItem());
-				Bcb4.removeItem(Bcb4.getSelectedItem());
 			}
-		BAll.setText(ball+"次");
-	}
-
-	if(e.getSource() == Bbutton5)
-		{
-			++b5;
-			++ball;
-			if(b5<5)
-				Bbutton5.setText(b5+"次");
-			else
-				{
-					JOptionPane.showMessageDialog(null,
-							"该选手已五犯离场，请更换队员","提示",JOptionPane.ERROR_MESSAGE);			
-					Bbutton5.setText(0+"次");
-					b5=0;
-					
-					Bcb1.removeItem(Bcb5.getSelectedItem());
-					Bcb2.removeItem(Bcb5.getSelectedItem());
-					Bcb3.removeItem(Bcb5.getSelectedItem());
-					Bcb4.removeItem(Bcb5.getSelectedItem());
-					Bcb5.removeItem(Bcb5.getSelectedItem());
-				}
-			BAll.setText(ball+"次");
 		}
-}
+	}
 
 private void Data() 
 	{
