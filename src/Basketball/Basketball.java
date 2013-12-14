@@ -1,6 +1,7 @@
 package Score;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import java.io.IOException;
@@ -20,9 +21,11 @@ public class Basketball extends JFrame implements ActionListener
 	ImageIcon startimg,pauseimg,overimg;
 	Dimension screenSize;
 	CountTime time;
-	Vector VectorA,VectorB,VectorAall,VectorBall;
-	//DefaultTableModel Mytable;
-	//JTable table;
+	Vector VectorA= new Vector();
+	Vector VectorB = new Vector();
+	Vector VectorAall,VectorBall;
+	DefaultTableModel Mytable;
+	JTable table;
 	int an,bn,aall,ball;
 	int [] a = new int[5];
 	int [] b = new int[5];
@@ -31,10 +34,8 @@ public class Basketball extends JFrame implements ActionListener
 	public Basketball()
 	{
     screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-    VectorAall = new Vector();
-    VectorBall = new Vector();
-    VectorAall.add("A队");
-    VectorBall.add("B队");
+    VectorA.add("A队");
+    VectorB.add("B队");
     /**
      * 标签栏的所有设置，
      * 包括添加A队，B队标签
@@ -275,7 +276,7 @@ public class Basketball extends JFrame implements ActionListener
     Data = new JButton("Data");
     Change = new JButton("Change");
     Sure = new JButton("Sure");
-   // See = new JButton("See");
+    See = new JButton("See");
     Reset = new JButton("Reset");
     
     StatuesPanel = new JPanel();
@@ -286,7 +287,7 @@ public class Basketball extends JFrame implements ActionListener
     StatuesPanel.add(Data);
     StatuesPanel.add(Change);
     StatuesPanel.add(Sure);
-    //StatuesPanel.add(See);
+    StatuesPanel.add(See);
     StatuesPanel.add(Reset);
   
     Start.addActionListener(this);
@@ -295,10 +296,11 @@ public class Basketball extends JFrame implements ActionListener
 	Data.addActionListener(this);
 	Change.addActionListener(this);
 	Sure.addActionListener(this);
-	//See.addActionListener(this);
+	See.addActionListener(this);
 	Reset.addActionListener(this);
 	
 	//Start.setEnabled(false); 
+	See.setEnabled(false);
 	Pause.setEnabled(false);
 	Continue.setEnabled(false);
 	
@@ -392,6 +394,7 @@ public void actionPerformed(ActionEvent e)
 		
 		Start.setEnabled(false);
 		Pause.setEnabled(true);
+		See.setEnabled(true);
 		
 		time.Start();
 		
@@ -425,8 +428,8 @@ public void actionPerformed(ActionEvent e)
 	if(e.getSource() == Data)
 			{	Data();	}
 	
-	//if(e.getSource() == See )
-		//	{	See();	}
+	if(e.getSource() == See )
+			{	See();	}
 	
 	if(e.getSource() == Reset)
 	{
@@ -507,7 +510,7 @@ public void actionPerformed(ActionEvent e)
 					Ascore.setText("0"+an);
 				else
 					Ascore.setText(""+an);
-				//VectorA.add(an);
+				
 			}
 		if(e.getSource() == BButton_[i])
 		{
@@ -516,10 +519,12 @@ public void actionPerformed(ActionEvent e)
 				Bscore.setText("0"+bn);
 			else
 				Bscore.setText(""+bn);
-			//VectorB.add(bn);
+			
 		}
+	
 	}
-
+		VectorA.add(an);
+		VectorB.add(bn);
 	for(int i = 0;i<5;i++)
 	{
 		if(e.getSource() == Abutton[i])
@@ -611,29 +616,25 @@ private void Data()
 		d.setVisible(true);
 	}
 
-	/*private void See() 
+	private void See() 
 	{
-		String [] columnNames = {"比赛节数 ","第一节","第二节","第三节","第四节"};
-		Mytable = new DefaultTableModel(columnNames,2);
-		table  = new JTable(Mytable);
-		
+		Vector columnnames = new Vector();
+		for(int i = 0;i<VectorA.size();i++)
+			columnnames.add(i);
+		Mytable = new DefaultTableModel(columnnames,0);
+		Mytable.addRow(VectorA);
+		Mytable.addRow(VectorB);
+		table = new JTable(Mytable);
+		table.add(new DefaultTableCellRenderer());
 	    JScrollPane panel = new JScrollPane(table);
 		JFrame Frame = new JFrame();
 		Frame.add(panel);
 		Frame.pack();
 		Frame.setVisible(true);
 		table.setPreferredScrollableViewportSize(new Dimension(300,200));
-
-		//Mytable.addChildren(VectorAall);
-		for(int i=0;i<4;i++)
-		{
-			Mytable.setValueAt(VectorAall.get(i), 0, i);
-			System.out.println(VectorAall.get(i));
-		}
-	}*/
-
-
-public static void main(String[] args)
+	}
+	
+	public static void main(String[] args)
 	{
 		new Basketball();
 	}

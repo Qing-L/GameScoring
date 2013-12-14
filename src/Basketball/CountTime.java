@@ -16,6 +16,7 @@ public class CountTime extends JPanel //implements ActionListener
 	long show,h,m,s,pausetime,continuetime,start;
 	int min = 7;
 	Timer timer;
+	
 	CountTime()
 	{
 		LPanel = new JPanel();
@@ -77,7 +78,20 @@ public class CountTime extends JPanel //implements ActionListener
 		},0,1000);
 	}
 	
-	
+	/*public void Score()
+	{
+		timer.schedule(new TimerTask()
+		{
+			public void run()
+				{
+					 long m1= m;
+					 long s1 = s;
+					 if(m1 == 6 && s1 == 0)
+						 
+					}
+		},0,1000);
+	}
+	*/
 	public void Reset()
 	{
 		timer.cancel();
@@ -86,7 +100,7 @@ public class CountTime extends JPanel //implements ActionListener
 	}
 	
 	
-	public void TimeShow() 
+	public  void TimeShow() 
 	{
 		if(m<10&&s<10)
 			l.setText("0"+m+":"+"0"+s);
