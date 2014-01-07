@@ -29,7 +29,7 @@ public class Basketball extends JFrame implements ActionListener
 	int an,bn,aall,ball;
 	int [] a = new int[5];
 	int [] b = new int[5];
-
+	int j = 0;
 	
 	public Basketball()
 	{
@@ -329,11 +329,11 @@ public class Basketball extends JFrame implements ActionListener
     cp.add(Labelpanel,BorderLayout.NORTH);
     cp.add(AaBpanel,BorderLayout.CENTER);
     
-    ImageIcon background = new ImageIcon("Source//whitebackground.png");//这是背景图片  
-    JLabel imgLabel = new JLabel(background);//将背景图放在标签里。  
+    ImageIcon background = new ImageIcon("Source//whitebackground.png");
+    JLabel imgLabel = new JLabel(background);
     getLayeredPane().add(imgLabel, new Integer(Integer.MIN_VALUE));//注意这里是关键，将背景标签添加到jfram的LayeredPane面板里。  
-    imgLabel.setBounds(0,0,background.getIconWidth(), background.getIconHeight());//设置背景标签的位置  
-    ((JPanel)cp).setOpaque(false); //注意这里，将内容面板设为透明。这样LayeredPane面板中的背景才能显示出来。  
+    imgLabel.setBounds(0,0,background.getIconWidth(), background.getIconHeight());
+    ((JPanel)cp).setOpaque(false); //注意这里，将内容面板设为透明
   
     setBounds(130, 20,1050 ,695 );
     setIconImage(Toolkit.getDefaultToolkit().getImage(
@@ -398,19 +398,6 @@ public void actionPerformed(ActionEvent e)
 		
 		time.Start();
 		
-	/*	if(time.m == 6&& time.s == 0)
-			{VectorAall.add(an);
-			VectorBall.add(bn);System.out.println(VectorAall);}
-		if(time.m == 4 && time.s == 0)
-			{VectorAall.add(an);
-			VectorBall.add(bn);System.out.println(VectorAall);}
-		if(time.m == 2 && time.s == 0)
-			{VectorAall.add(an);
-			VectorBall.add(bn);System.out.println(VectorAall);}
-		if(time.m == 0 && time.s == 0)
-			{VectorAall.add(an);
-			VectorBall.add(bn);System.out.println(VectorAall);}
-	*/
 	}
 	
 	if(e.getSource() == Pause)
@@ -454,13 +441,15 @@ public void actionPerformed(ActionEvent e)
 		bn = 0;
 		ball = 0;
 		
+		VectorA.clear();VectorA.add("A队");
+		VectorB.clear();VectorB.add("B队");
+		
 		Data.setEnabled(true);
 		Pause.setEnabled(false);
 		Continue.setEnabled(false);
 	}
 	
 	
-		
 	if(e.getSource() == savedata )
 		{
 			if(At[0].getText().length()==0||At[1].getText().length()==0||
@@ -484,7 +473,6 @@ public void actionPerformed(ActionEvent e)
 				}
 			Data.setEnabled(false);
 			Start.setEnabled(true);
-			
 		}
 	
 	if(e.getSource() == Change )
@@ -510,7 +498,6 @@ public void actionPerformed(ActionEvent e)
 					Ascore.setText("0"+an);
 				else
 					Ascore.setText(""+an);
-				
 			}
 		if(e.getSource() == BButton_[i])
 		{
@@ -519,7 +506,6 @@ public void actionPerformed(ActionEvent e)
 				Bscore.setText("0"+bn);
 			else
 				Bscore.setText(""+bn);
-			
 		}
 	
 	}
@@ -619,13 +605,19 @@ private void Data()
 	private void See() 
 	{
 		Vector columnnames = new Vector();
+		columnnames.add("回合数");
 		for(int i = 0;i<VectorA.size();i++)
 			columnnames.add(i);
 		Mytable = new DefaultTableModel(columnnames,0);
+		++j;
+		VectorA.add("查看"+j+"次");
+		VectorB.add("查看"+j+"次");
 		Mytable.addRow(VectorA);
 		Mytable.addRow(VectorB);
 		table = new JTable(Mytable);
 		table.add(new DefaultTableCellRenderer());
+		table.setColumnSelectionAllowed(false);//不允许选择表格列
+ 		table.setRowSelectionAllowed(true);	//允许选择表格行
 	    JScrollPane panel = new JScrollPane(table);
 		JFrame Frame = new JFrame();
 		Frame.add(panel);
@@ -633,9 +625,5 @@ private void Data()
 		Frame.setVisible(true);
 		table.setPreferredScrollableViewportSize(new Dimension(300,200));
 	}
-	
-	public static void main(String[] args)
-	{
-		new Basketball();
-	}
+
 }
